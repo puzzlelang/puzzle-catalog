@@ -51,3 +51,39 @@ Set a namespace context. Namespace contexts will be active until another `ns`is 
 ```luke
 ns example;
 ```
+
+### print {text}
+
+Prints something. `{text}`can be of any type.
+
+```luke
+print "Hello World"
+```
+
+### list ...
+
+#### ... commands
+
+Lists avilable commands for the current namespace.
+
+```luke
+list commands;
+```
+
+#### ... modules
+
+Lists all used modules
+
+```luke
+list modules;
+```
+
+
+### download {url}
+
+Downloads a file
+
+```luke
+download https://google.com;
+```
+
