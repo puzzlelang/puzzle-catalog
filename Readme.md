@@ -8,21 +8,46 @@ A collection of official luke modules.
 
 You can directly load your required module from this repo:
 
-`use https://raw.githubusercontent.com/luke-lang/luke-catalog/master/modules/<MODULE.js>`
+```luke
+use https://raw.githubusercontent.com/luke-lang/luke-catalog/master/modules/<MODULE.js>
+```
 
 ### Use local modules
 
 If you install this package via npm in the same directory, you can use the shortcut access:
 
-First: `npm i luke-catalog`
+First: 
+
+```shell
+npm i luke-catalog
+```
 
 Then in your luke script you can use the following shortcut:
 
-`use $catalog/<MODULE.js>`
+```luke
+use $catalog/<MODULE.js>
+```
 
-($catalog will actually resolve the actual path to the node module)
+(`$catalog` will actually resolve the actual path to the node module)
 
 # Modules
 
 ## default
-afsdf
+
+### use {module}
+
+Use a module. {module can either be a local file or loaded over https}
+
+```luke
+use example.luke.js
+
+use https://domain.com/example.luke.js
+```
+
+### ns {namespace}
+
+Set a namespace context. Namespace contexts will be active until another `ns`is set or the script ends.
+
+```luke
+ns example;
+```
