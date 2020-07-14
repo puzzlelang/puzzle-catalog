@@ -95,3 +95,28 @@ Installs an npm package into the current directory
 install express
 ```
 
+
+# Add your module
+
+In order to add your module to this repo you must meet the following constraints:
+
+* Module name must be: <MODULENAME>.luke.js
+* Modules must be single files
+* Modules must be added to the modules folder of this repo
+* A proper module documentation must be added to the readme file
+
+***Module documentation format:***
+
+Under `#modules`
+
+```
+## <MODULE NAME>
+
+<MODULE DESCRIPTION>
+
+### <token> <params>
+
+<TOKEN DESCRIPTION>
+
+<CODE EXAMPLE>
+```
