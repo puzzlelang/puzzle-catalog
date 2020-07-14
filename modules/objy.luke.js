@@ -50,4 +50,4 @@ var lang = {
         }
     }
 }
-module.exports = dsl;
+module.exports = lang;
