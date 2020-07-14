@@ -1,20 +1,18 @@
-const https = require('https');
+const request = require('request');
 
 function call(method, url, data, callback) {
-    https[method.toLowerCase()](url, (resp) => {
-        var data = '';
 
-        resp.on('data', (chunk) => {
-            data += chunk;
-        });
+    var options = {
+        method,
+        uri: url,
+    };
 
-        resp.on('end', () => {
-            useSyntax(lang, eval(data));
-        });
+    if (method == 'POST') options.postData = data;
+    else if (method == 'GET') options.uri += '?' + data;
 
-    }).on("error", (err) => {
-        console.log("Error: " + err.message);
-    });
+    request(options, function(error, response, body) {
+        if (callback) callback(body)
+    })
 }
 
 var lang = {
@@ -28,7 +26,6 @@ var lang = {
                 method: function(data) {
                     lang.context.method = 'post';
                     lang.context.payload = data;
-                    console.log('data', data);
                 }
             },
             PATCH: {
@@ -36,7 +33,6 @@ var lang = {
                 method: function(data) {
                     lang.context.method = 'patch';
                     lang.context.payload = data;
-                    console.log('data', data);
                 }
             },
             PUT: {
@@ -44,21 +40,18 @@ var lang = {
                 method: function(data) {
                     lang.context.method = 'put';
                     lang.context.payload = data;
-                    console.log('data', data);
                 }
             },
             GET: {
-                follow: ["{query}", "$from"],
+                follow: ["$from", "{query}"],
                 method: function(query) {
                     lang.context.method = 'get';
                     lang.context.payload = query;
-                    console.log('query', query);
                 }
             },
             to: {
                 follow: ["{url}"],
                 method: function(url) {
-
                     call(lang.context.method, url, lang.context.payload, function(data) {
                         console.log(data);
                     });
