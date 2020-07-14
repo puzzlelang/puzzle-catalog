@@ -1,5 +1,7 @@
 # luke catalog
 
+A collection of official luke modules.
+
 ## How to use modules from here
 
 ### Use remote modules
@@ -14,12 +16,13 @@ If you install this package via npm in the same directory, you can use the short
 
 First: `npm i luke-catalog`
 
-Then in your luke script:
+Then in your luke script you can use the following shortcut:
 
 `use $catalog/<MODULE.js>`
+
+($catalog will actually resolve the actual path to the node module)
 
 # Modules
 
 ## default
-
-sfsg
+afsdf
