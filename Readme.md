@@ -62,7 +62,7 @@ print "Hello World"
 
 ### list ...
 
-#### ... commands
+***commands***
 
 Lists avilable commands for the current namespace.
 
@@ -70,7 +70,7 @@ Lists avilable commands for the current namespace.
 list commands;
 ```
 
-#### ... modules
+***modules***
 
 Lists all used modules
 
@@ -85,5 +85,13 @@ Downloads a file
 
 ```luke
 download https://google.com;
+```
+
+### install {npm-package}
+
+Installs an npm package into the current directory
+
+```luke
+install express
 ```
 
