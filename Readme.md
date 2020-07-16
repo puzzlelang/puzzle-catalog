@@ -92,7 +92,7 @@ install express
 
 
 
-## REST
+## Rest
 
 A module to emit basic REST commands to any url.
 
@@ -128,6 +128,67 @@ Emit a get request
 ```luke
 GET username=Nicole from https://api.com/persons
 ```
+
+
+
+## objy
+
+A module for building object-driven programs. In objy everyting is a behaviour-driven object, which controls and observes itself.
+
+Full example:
+
+```luke
+use objy.luke.js;
+
+define obbjectFamily with name car and pluralName cars;
+
+add car with name "Mercedes";
+
+get cars with name "Mercedes";
+
+update car "id123" set name "Chevrolet";
+```
+
+***define objectFamily***
+
+Define an object family.
+
+```luke
+define objectFamily with name car and pluralName cars
+```
+
+***add {object} {data}***
+
+Add an object
+
+```luke
+add car with name "Mercedes" and color "silver";
+
+// or
+
+add car {name: "Mercedes", color: "silver"}
+```
+
+***get {object} {id}***
+
+Get a single object
+
+```luke
+get car "id123";
+```
+
+***get {objects} {query}***
+
+Get multiple objects matching a query
+
+```luke
+get cars with name "Mercedes"
+
+//or
+
+get cars {name: "Mercedes"}
+```
+
 
 
 
