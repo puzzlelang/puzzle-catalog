@@ -92,6 +92,42 @@ install express
 
 
 
+## REST
+
+A module to emit basic REST commands to any url.
+
+
+### POST {data} to {url}
+
+Emit a post request
+
+```luke
+POST {username: "Peter", password: "pass"} to https://api.com/auth
+```
+
+### PATCH {data} to {url}
+
+Emit a patch request
+
+```luke
+PATCH {username: "Nicole"} to https://api.com/person
+```
+
+### PUT {data} to {url}
+
+Emit a put request
+
+```luke
+PUT {username: "Luke"} to https://api.com/person
+```
+
+### GET {query} from {url}
+
+Emit a get request
+
+```luke
+GET username=Nicole from https://api.com/persons
+```
 
 
 

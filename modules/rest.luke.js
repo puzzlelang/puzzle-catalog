@@ -7,8 +7,9 @@ function call(method, url, data, callback) {
         uri: url,
     };
 
-    if (method == 'POST') options.postData = data;
-    else if (method == 'GET') options.uri += '?' + data;
+    if (method == 'post') options.postData = data;
+    else if (method == 'get') options.uri += '?' + data;
+    else if (method == 'delete') options.postData = data;
 
     request(options, function(error, response, body) {
         if (callback) callback(body)
@@ -46,6 +47,13 @@ var lang = {
                 follow: ["$from", "{query}"],
                 method: function(query) {
                     lang.context.method = 'get';
+                    lang.context.payload = query;
+                }
+            },
+            DELETE: {
+                follow: ["$from", "{query}"],
+                method: function(query) {
+                    lang.context.method = 'delete';
                     lang.context.payload = query;
                 }
             },
