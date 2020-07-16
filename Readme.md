@@ -27,7 +27,7 @@ use $catalog/<MODULE.js>
 
 # Modules
 
-## default module (built in)
+## default (built in)
 
 ***use {module}***
 
