@@ -29,7 +29,7 @@ use $catalog/<MODULE.js>
 
 ## default module (built in)
 
-### use {module}
+***use {module}***
 
 Use a module. {module can either be a local file or loaded over https}
 
@@ -39,7 +39,7 @@ use example.luke.js
 use https://domain.com/example.luke.js
 ```
 
-### ns {namespace}
+***ns {namespace}***
 
 Set a namespace context. Namespace contexts will be active until another `ns`is set or the script ends.
 
@@ -47,7 +47,7 @@ Set a namespace context. Namespace contexts will be active until another `ns`is 
 ns example;
 ```
 
-### print {text}
+***print {text}***
 
 Prints something. `{text}`can be of any type.
 
@@ -55,7 +55,7 @@ Prints something. `{text}`can be of any type.
 print "Hello World"
 ```
 
-### list ...
+***list ...***
 
 ***commands***
 
@@ -74,7 +74,7 @@ list modules;
 ```
 
 
-### download {url}
+***download {url}***
 
 Downloads a file
 
@@ -82,7 +82,7 @@ Downloads a file
 download https://google.com;
 ```
 
-### install {npm-package}
+***install {npm-package}***
 
 Installs an npm package into the current directory
 
@@ -97,7 +97,7 @@ install express
 A module to emit basic REST commands to any url.
 
 
-### POST {data} to {url}
+***POST {data} to {url}***
 
 Emit a post request
 
@@ -105,7 +105,7 @@ Emit a post request
 POST {username: "Peter", password: "pass"} to https://api.com/auth
 ```
 
-### PATCH {data} to {url}
+***PATCH {data} to {url}***
 
 Emit a patch request
 
@@ -113,7 +113,7 @@ Emit a patch request
 PATCH {username: "Nicole"} to https://api.com/person
 ```
 
-### PUT {data} to {url}
+***PUT {data} to {url}***
 
 Emit a put request
 
@@ -121,7 +121,7 @@ Emit a put request
 PUT {username: "Luke"} to https://api.com/person
 ```
 
-### GET {query} from {url}
+***GET {query} from {url}***
 
 Emit a get request
 
