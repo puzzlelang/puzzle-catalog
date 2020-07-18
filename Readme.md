@@ -5,21 +5,16 @@ A collection of official luke modules.
 ## How to use modules from here
 
 
-You can directly load your required module remotely from this repo:
+You can directly load your required module remotely from this repo or use it locally:
 
 ```luke
 use https://raw.githubusercontent.com/luke-lang/luke-catalog/master/modules/<MODULE.js>
-```
 
-or locally:
-
-```luke
 use path/to/<MODULE>.js
-```
 
-If you install this package via npm in the same directory (`npm i luke-catalog`), you can use the shortcut access:
+ 
+//If you install this package via npm in the same directory (`npm i luke-catalog`), you can use the shortcut access:
 
-```luke
 use $catalog/<MODULE.js>
 ```
 
