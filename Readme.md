@@ -9,9 +9,7 @@ You can directly load your required module remotely from this repo or use it loc
 
 ```luke
 use https://raw.githubusercontent.com/luke-lang/luke-catalog/master/modules/<MODULE.js>
-
 use path/to/<MODULE>.js
-
  
 //If you install this package via npm in the same directory (`npm i luke-catalog`), you can use the shortcut access:
 
