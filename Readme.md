@@ -5,18 +5,19 @@ A collection of official luke modules.
 ## How to use modules from here
 
 
-You can directly load your required module remotely from this repo or use it locally:
+You can directly load your required module remotely (without installation) from this repo or use it locally:
 
 ```luke
 use https://raw.githubusercontent.com/luke-lang/luke-catalog/master/modules/<MODULE.js>
 use path/to/<MODULE>.js
- 
-//If you install this package via npm in the same directory (`npm i luke-catalog`), you can use the shortcut access:
-
-use $catalog/<MODULE.js>
 ```
 
-(`$catalog` will actually resolve the actual path to the node module)
+If you'd like to cache a remote module for future access, use the `permanent`:
+
+```luke
+use permanent https://raw.githubusercontent.com/luke-lang/luke-catalog/master/modules/<MODULE.js>
+```
+
 
 # Modules
 
