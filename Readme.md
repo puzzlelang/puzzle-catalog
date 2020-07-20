@@ -18,12 +18,11 @@ If you'd like to cache a remote module for future access, use the `permanent`:
 use permanent https://raw.githubusercontent.com/luke-lang/luke-catalog/master/modules/<MODULE.js>
 ```
 
-
 # Modules
 
 ## default (built in)
 
-#### use (permanent) {module}
+### use (permanent) {module}
 
 Use a module. {module can either be a local file or loaded over https without installation}
 
@@ -43,7 +42,7 @@ use permanent https://domain.com/example.luke.js;
 unuse https://domain.com/example.luke.js;
 ```
 
-#### ns {namespace}
+### ns {namespace}
 
 Set a namespace context. Namespace contexts will be active until another `ns`is set or the script ends.
 
@@ -51,7 +50,7 @@ Set a namespace context. Namespace contexts will be active until another `ns`is 
 ns example;
 ```
 
-#### print {text}
+### print {text}
 
 Prints something. `{text}`can be of any type.
 
@@ -59,7 +58,7 @@ Prints something. `{text}`can be of any type.
 print "Hello World"
 ```
 
-#### list ...
+### list ...
 
 ***commands***
 
@@ -78,7 +77,7 @@ list modules;
 ```
 
 
-#### download {url}
+### download {url}
 
 Downloads a file
 
@@ -86,7 +85,7 @@ Downloads a file
 download https://google.com;
 ```
 
-#### install {npm-package}
+### install {npm-package}
 
 Installs an npm package into the current directory
 
@@ -101,7 +100,7 @@ install express
 A module to emit basic REST commands to any url.
 
 
-#### POST {data} to {url}
+### POST {data} to {url}
 
 Emit a post request
 
@@ -109,7 +108,7 @@ Emit a post request
 POST {username: "Peter", password: "pass"} to https://api.com/auth
 ```
 
-#### PATCH {data} to {url}
+### PATCH {data} to {url}
 
 Emit a patch request
 
@@ -117,7 +116,7 @@ Emit a patch request
 PATCH {username: "Nicole"} to https://api.com/person
 ```
 
-#### PUT {data} to {url}
+### PUT {data} to {url}
 
 Emit a put request
 
@@ -125,7 +124,7 @@ Emit a put request
 PUT {username: "Luke"} to https://api.com/person
 ```
 
-#### GET {query} from {url}
+### GET {query} from {url}
 
 Emit a get request
 
@@ -153,7 +152,7 @@ get cars with name "Mercedes";
 update car "id123" set name "Chevrolet";
 ```
 
-#### define objectFamily
+### define objectFamily
 
 Define an object family.
 
@@ -161,7 +160,7 @@ Define an object family.
 define objectFamily with name car and pluralName cars
 ```
 
-#### add {object} {data}
+### add {object} {data}
 
 Add an object
 
@@ -173,7 +172,7 @@ add car with name "Mercedes" and color "silver";
 add car {name: "Mercedes", color: "silver"}
 ```
 
-#### get {object} {id}
+### get {object} {id}
 
 Get a single object
 
@@ -181,7 +180,7 @@ Get a single object
 get car "id123";
 ```
 
-#### get {objects} {query}
+### get {objects} {query}
 
 Get multiple objects matching a query
 
