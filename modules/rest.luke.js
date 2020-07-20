@@ -24,42 +24,42 @@ var lang = {
         rest: {
             POST: {
                 follow: ["{data}", "$to"],
-                method: function(data) {
+                method: function(ctx,data) {
                     lang.context.method = 'post';
                     lang.context.payload = data;
                 }
             },
             PATCH: {
                 follow: ["{data}", "$to"],
-                method: function(data) {
+                method: function(ctx,data) {
                     lang.context.method = 'patch';
                     lang.context.payload = data;
                 }
             },
             PUT: {
                 follow: ["{data}", "$to"],
-                method: function(data) {
+                method: function(ctx,data) {
                     lang.context.method = 'put';
                     lang.context.payload = data;
                 }
             },
             GET: {
                 follow: ["$from", "{query}"],
-                method: function(query) {
+                method: function(ctx,query) {
                     lang.context.method = 'get';
                     lang.context.payload = query;
                 }
             },
             DELETE: {
                 follow: ["$from", "{query}"],
-                method: function(query) {
+                method: function(ctx,query) {
                     lang.context.method = 'delete';
                     lang.context.payload = query;
                 }
             },
             to: {
                 follow: ["{url}"],
-                method: function(url) {
+                method: function(ctx,url) {
                     call(lang.context.method, url, lang.context.payload, function(data) {
                         console.log(data);
                     });
@@ -68,7 +68,7 @@ var lang = {
             },
             from: {
                 follow: ["{url}"],
-                method: function(url) {
+                method: function(ctx,url) {
                     call(lang.context.method, url, lang.context.payload, function(data) {
                         console.log(data);
                     });
