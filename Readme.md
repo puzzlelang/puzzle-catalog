@@ -8,14 +8,14 @@ A collection of official luke modules.
 You can directly load your required module remotely (without installation) from this repo or use it locally:
 
 ```luke
-use https://raw.githubusercontent.com/luke-lang/luke-catalog/master/modules/<MODULE.js>
+use https://raw.githubusercontent.com/luke-lang/luke-catalog/master/modules/<MODULE>/index.luke.js
 use path/to/<MODULE>.js
 ```
 
 If you'd like to cache a remote module for future access, use the `permanent`:
 
 ```luke
-use permanent https://raw.githubusercontent.com/luke-lang/luke-catalog/master/modules/<MODULE.js>
+use permanent https://raw.githubusercontent.com/luke-lang/luke-catalog/master/modules/<MODULE>/index.luke.js
 ```
 
 # Modules

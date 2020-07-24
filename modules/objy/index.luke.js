@@ -1,7 +1,6 @@
+var OBJY = require('objy.js')
+
 var lang = {
-    delimeter: ";",
-    assignmentOperator: "=",
-    context: {},
     $: {
         objy: {
             define: {
