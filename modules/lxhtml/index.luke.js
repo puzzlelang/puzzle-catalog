@@ -9,7 +9,8 @@ var syntax = {
     static: {
         execStatement: function() {
             console.log('ctx', syntax.context)
-
+            console.log(document, document.getElementById('html-canvas'));
+            
             if(document){
                 if(document.getElementById('html-canvas'))
                 {
