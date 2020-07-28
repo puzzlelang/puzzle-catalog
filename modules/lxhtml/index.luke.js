@@ -7,7 +7,7 @@ var syntax = {
         js: ""
     },
     static: {
-        execStatement: function() {
+        execStatement: function(done) {
             console.log('ctx', syntax.context)
             console.log(document, document.getElementById('html-canvas'));
             
@@ -25,6 +25,8 @@ var syntax = {
                 lxhtmlBus.$emit('custom-content', data)
 
             } 
+
+            done();
 
            /* if(document){
                 if(document.getElementById('html-canvas')) {
