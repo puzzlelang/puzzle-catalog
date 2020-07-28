@@ -1,4 +1,4 @@
-var lang = {
+var syntax = {
     delimeter: ";",
     assignmentOperator: "=",
     context: {
@@ -14,20 +14,20 @@ var lang = {
             create: {
                 follow: ["{element}", "$with"],
                 method: function(ctx, el) {
-                    lang.context['element'] = el;
+                    syntax.context['element'] = el;
                     console.log('using', el)
                 }
             },
             with: {
                 follow: ["{key,value}", "$and"],
                 method: function(ctx, data) {
-                    lang.context.attrs[data.key] = data.value;
+                    syntax.context.attrs[data.key] = data.value;
                 }
             },
             and: {
                 follow: ["{key,value}", "$and"],
                 method: function(ctx, cr) {
-                    lang.context.attrs[data.key] = data.value;
+                    syntax.context.attrs[data.key] = data.value;
                 }
             }
         }
@@ -35,4 +35,4 @@ var lang = {
 }
 
 
-module.exports = lang;
+module.exports = syntax;

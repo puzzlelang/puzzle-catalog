@@ -1,4 +1,4 @@
-var lxhtml = {
+var syntax = {
     delimeter: ";",
     assignmentOperator: "=",
     context: {
@@ -22,4 +22,4 @@ var lxhtml = {
 }
 
 
-module.exports = lxhtml;
+module.exports = syntax;

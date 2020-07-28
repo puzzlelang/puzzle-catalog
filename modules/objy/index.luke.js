@@ -1,6 +1,6 @@
 var OBJY = require('objy.js')
 
-var objy = {
+var syntax = {
     $: {
         objy: {
             define: {
@@ -49,4 +49,4 @@ var objy = {
         }
     }
 }
-module.exports = objy;
+module.exports = syntax;

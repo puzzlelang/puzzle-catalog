@@ -3,7 +3,7 @@ var SPOO = require('../dependencies/spooclient.js');
 var spoo = new SPOO();
 
 
-var lang = {
+var syntax = {
     delimeter: ";",
     assignmentOperator: "=",
     context: {},
@@ -12,21 +12,21 @@ var lang = {
             client: {
                 follow: ["{workspace}", "$from"],
                 method: function(ctx,ws) {
-                    lang.context['workspace'] = ws;
+                    syntax.context['workspace'] = ws;
                     console.log('using', ws)
                 }
             },
             auth: {
                 follow: ["{credentials}"],
                 method: function(ctx,cr) {
-                    lang.context['credentials'] = cr;
+                    syntax.context['credentials'] = cr;
                     console.log(cr)
                 }
             },
             from: {
                 follow: ["{url}"],
                 method: function(ctx,url) {
-                    lang.context['importUrl'] = url;
+                    syntax.context['importUrl'] = url;
                     console.log(url)
                 }
             },
@@ -78,4 +78,4 @@ var lang = {
 }
 
 
-module.exports = lang;
+module.exports = syntax;

@@ -16,7 +16,7 @@ function call(method, url, data, callback) {
     })
 }
 
-var lang = {
+var syntax = {
     delimeter: ";",
     assignmentOperator: "=",
     context: {},
@@ -25,42 +25,42 @@ var lang = {
             POST: {
                 follow: ["{data}", "$to"],
                 method: function(ctx,data) {
-                    lang.context.method = 'post';
-                    lang.context.payload = data;
+                    syntax.context.method = 'post';
+                    syntax.context.payload = data;
                 }
             },
             PATCH: {
                 follow: ["{data}", "$to"],
                 method: function(ctx,data) {
-                    lang.context.method = 'patch';
-                    lang.context.payload = data;
+                    syntax.context.method = 'patch';
+                    syntax.context.payload = data;
                 }
             },
             PUT: {
                 follow: ["{data}", "$to"],
                 method: function(ctx,data) {
-                    lang.context.method = 'put';
-                    lang.context.payload = data;
+                    syntax.context.method = 'put';
+                    syntax.context.payload = data;
                 }
             },
             GET: {
                 follow: ["$from", "{query}"],
                 method: function(ctx,query) {
-                    lang.context.method = 'get';
-                    lang.context.payload = query;
+                    syntax.context.method = 'get';
+                    syntax.context.payload = query;
                 }
             },
             DELETE: {
                 follow: ["$from", "{query}"],
                 method: function(ctx,query) {
-                    lang.context.method = 'delete';
-                    lang.context.payload = query;
+                    syntax.context.method = 'delete';
+                    syntax.context.payload = query;
                 }
             },
             to: {
                 follow: ["{url}"],
                 method: function(ctx,url) {
-                    call(lang.context.method, url, lang.context.payload, function(data) {
+                    call(syntax.context.method, url, syntax.context.payload, function(data) {
                         console.log(data);
                     });
 
@@ -69,7 +69,7 @@ var lang = {
             from: {
                 follow: ["{url}"],
                 method: function(ctx,url) {
-                    call(lang.context.method, url, lang.context.payload, function(data) {
+                    call(syntax.context.method, url, syntax.context.payload, function(data) {
                         console.log(data);
                     });
                 }
@@ -77,4 +77,4 @@ var lang = {
         }
     }
 }
-module.exports = lang;
+module.exports = syntax;
