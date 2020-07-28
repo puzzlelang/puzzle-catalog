@@ -12,13 +12,12 @@ var syntax = {
             console.log(document, document.getElementById('html-canvas'));
             
             if(document){
-                if(document.getElementById('html-canvas'))
-                {
-                    document.getElementById('html-canvas').innerHtml = syntax.context.html;
-                    document.getElementById('html-canvas').style = syntax.context.style;
+                if(document.getElementById('html-canvas')) {
+                    document.getElementById('html-canvas').innerHtml = syntax.context.html.substring(1, syntax.context.html.length-2)
+                    document.getElementById('html-canvas').style = syntax.context.style.substring(1, syntax.context.style.length-2)
 
                     var script = document.createElement('script');
-                    var inlineCode = document.createTextNode(syntax.context.js);
+                    var inlineCode = document.createTextNode(syntax.context.js.substring(1, syntax.context.js.length-2));
                     script.appendChild(inlineCode); 
 
                     document.getElementById('html-canvas').appendChild(script);
