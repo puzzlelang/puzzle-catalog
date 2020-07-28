@@ -17,7 +17,7 @@ var syntax = {
 
                 var data = {};
                 
-                console.log(syntax.context.html, syntax.context.html.substring(0,1))
+                console.log(syntax.context.html)
                 if(syntax.context.html) data.html = syntax.context.html.substring(1, syntax.context.html.length-1);
                 if(syntax.context.style) data.style = syntax.context.style.substring(1, syntax.context.style.length-1);
                 if(syntax.context.js) data.js = syntax.context.js.substring(1, syntax.context.js.length-1);
