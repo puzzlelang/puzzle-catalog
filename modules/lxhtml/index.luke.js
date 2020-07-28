@@ -12,13 +12,16 @@ var syntax = {
             console.log(document, document.getElementById('html-canvas'));
             
             console.log(lxhtmlBus);
+            
             if(lxhtmlBus){
 
-                lxhtmlBus.$emit('custom-content', {
-                    html: syntax.context.html.substring(1, syntax.context.html.length-1),
-                    style: syntax.context.style.substring(1, syntax.context.style.length-1),
-                    js: syntax.context.js.substring(1, syntax.context.js.length-1)
-                })
+                var data = {};
+                
+                if(syntax.context.html) data.html = syntax.context.html.substring(1, syntax.context.html.length-1);
+                if(syntax.context.style) data.style = syntax.context.style.substring(1, syntax.context.style.length-1);
+                if(syntax.context.js) data.js = syntax.context.js.substring(1, syntax.context.js.length-1);
+
+                lxhtmlBus.$emit('custom-content', data)
 
             } 
 
@@ -51,9 +54,9 @@ var syntax = {
                 }
             },
             js: {
-                follow: ["{style}"],
-                method: function(ctx, style) {
-                    syntax.context.style = style;
+                follow: ["{js}"],
+                method: function(ctx, js) {
+                    syntax.context.js = js;
                 }
             }
         }
