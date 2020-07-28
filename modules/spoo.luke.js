@@ -1,75 +1,74 @@
+var SPOO = require('./dependencies/spooclient.js');
+
+var spoo = new SPOO();
+
+
 var lang = {
     delimeter: ";",
     assignmentOperator: "=",
     context: {},
     $: {
         spoo: {
+            set: {
+                follow: ["$client", "$url", "$app"],
+                method: function(ws) {}
+            },
             client: {
-                follow: ["{workspace}", "$from"],
-                method: function(ws) {
-                    lang.context['workspace'] = ws;
-                    console.log('using', ws)
+                follow: ["{client}"],
+                method: function(client) {
+                    lang.context['client'] = client;
+                    spoo = new SPOO(client);
+                    console.log('using client', client)
+                }
+            },
+            app: {
+                follow: ["{app}"],
+                method: function(app) {
+                    lang.context['app'] = app;
+                    spoo = new SPOO(lang.context['client']).AppId(app);
+                    console.log('using app', app)
                 }
             },
             auth: {
-                follow: ["{credentials}"],
-                method: function(cr) {
-                    lang.context['credentials'] = cr;
-                    console.log(cr)
-                }
-            },
-            from: {
-                follow: ["{url}"],
-                method: function(url) {
-                    lang.context['importUrl'] = url;
-                    console.log(url)
-                }
-            },
-            define: {
-                follow: ["$objectFamily"],
-                method: function() {
-                    console.log('define');
-                }
-            },
-            add: {
-                follow: ["{name}", "$width"],
-                method: function(p) {
-                    console.log('add(' + p + ')');
-                }
-            },
-            obj: {
-                follow: ["$set"],
-                method: function() {
+                follow: ["$username"],
+                method: function(username) {
 
                 }
             },
-            objectFamily: {
-                follow: ["$set", "$width", "${ofName}", "{name}"],
-                method: function(p) {
-                    console.log('objectFamily(' + p + ')');
+            username: {
+                follow: ["{username}", "$password"],
+                method: function(username) {
+                    lang.context['username'] = username;
                 }
             },
-            set: {
-                follow: ["{name}", "$set", "$and", "$with", "$exec"],
-                method: function(r) {
-                    //console.log(r);
-                    console.log('set(' + r + ')');
+            password: {
+                follow: ["{pass}"],
+                method: function(pass) {
+                    spoo.io().auth(lang.context['username'], pass, function(data, err) {
+
+                    }, true)
                 }
             },
-            "width": {
-                follow: ["{name}", "$and"],
-                method: function(p) {
-                    console.log('width(' + p + ')');
+            get: {
+                follow: ["{objectfamily,query}", "$app"],
+                method: function(args) {
+                    console.log('args', arguments);
+                    spoo.io()[args.objectfamily](args.query).get(function(data, err) {
+                        console.log(err, data)
+                    })
                 }
             },
-            and: {
-                follow: ["$set", "$width", "{sf}"],
-                method: function(p) {
-                    console.log('and', p);
+            add: {
+                follow: ["{objectFamily}"],
+                method: function(objectfamily) {
+                    spoo.io()[objectfamily]({}).add(function(data, err) {
+                        console.log(err, data)
+                    })
                 }
             }
         }
     }
 }
+
 
 module.exports = lang;
