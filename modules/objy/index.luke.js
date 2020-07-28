@@ -1,6 +1,6 @@
 var OBJY = require('objy.js')
 
-var lang = {
+var objy = {
     $: {
         objy: {
             define: {
@@ -49,4 +49,4 @@ var lang = {
         }
     }
 }
-module.exports = lang;
+module.exports = objy;

@@ -1,4 +1,4 @@
-var lang = {
+var lxhtml = {
     delimeter: ";",
     assignmentOperator: "=",
     context: {
@@ -22,4 +22,4 @@ var lang = {
 }
 
 
-module.exports = lang;
+module.exports = lxhtml;
