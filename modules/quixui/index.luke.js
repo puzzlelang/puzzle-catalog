@@ -1,9 +1,13 @@
 var lang = {
     delimeter: ";",
     assignmentOperator: "=",
-    context: {},
+    context: {
+        attrs: {}
+    },
     static: {
-        execStatement: function() {}
+        execStatement: function() {
+            console.log('ctx', this.context)
+        }
     },
     $: {
         quixui: {
@@ -15,10 +19,15 @@ var lang = {
                 }
             },
             with: {
-                follow: ["{credentials}"],
+                follow: ["{key,value}", "$and"],
+                method: function(ctx, data) {
+                    lang.context.attrs[data.key] = data.value;
+                }
+            },
+            and: {
+                follow: ["{key,value}", "$and"],
                 method: function(ctx, cr) {
-                    lang.context['credentials'] = cr;
-                    console.log(cr)
+                    lang.context.attrs[data.key] = data.value;
                 }
             }
         }
