@@ -8,16 +8,16 @@ var syntax = {
     },
     static: {
         execStatement: function() {
-            console.log('ctx', this.context)
+            console.log('ctx', syntax.context)
 
             if(document){
                 if(document.getElementById('html-canvas'))
                 {
-                    document.getElementById('html-canvas').innerHtml = this.context.html;
-                    document.getElementById('html-canvas').style = this.context.style;
+                    document.getElementById('html-canvas').innerHtml = syntax.context.html;
+                    document.getElementById('html-canvas').style = syntax.context.style;
 
                     var script = document.createElement('script');
-                    var inlineCode = document.createTextNode(this.context.js);
+                    var inlineCode = document.createTextNode(syntax.context.js);
                     script.appendChild(inlineCode); 
 
                     document.getElementById('html-canvas').appendChild(script);
