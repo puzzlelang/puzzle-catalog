@@ -52,8 +52,8 @@ var syntax = {
                 follow: ["{html}"],
                 method: function(ctx, html) {
                     syntax.context.html = html;
-                    if(isObject(html)) syntax.context.html = JSON.parse(html);
                     console.log('html', html);
+                    
                 }
             },
             style: {
