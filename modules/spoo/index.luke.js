@@ -1,4 +1,4 @@
-var SPOO = require('./dependencies/spooclient.js');
+var SPOO = require('../dependencies/spooclient.js');
 
 var spoo = new SPOO();
 
