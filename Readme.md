@@ -18,9 +18,7 @@ If you'd like to cache a remote module for future access, use the `permanent`:
 use permanent https://raw.githubusercontent.com/luke-lang/luke-catalog/master/modules/<MODULE>/index.luke.js
 ```
 
-# Modules
-
-## default (built in)
+## default module (built in)
 
 ### use (permanent) {module}
 
@@ -94,116 +92,13 @@ install express
 ```
 
 
-
-## Rest
-
-A module to emit basic REST commands to any url.
-
-
-### POST {data} to {url}
-
-Emit a post request
-
-```luke
-POST {username: "Peter", password: "pass"} to https://api.com/auth
-```
-
-### PATCH {data} to {url}
-
-Emit a patch request
-
-```luke
-PATCH {username: "Nicole"} to https://api.com/person
-```
-
-### PUT {data} to {url}
-
-Emit a put request
-
-```luke
-PUT {username: "Luke"} to https://api.com/person
-```
-
-### GET {query} from {url}
-
-Emit a get request
-
-```luke
-GET username=Nicole from https://api.com/persons
-```
-
-
-
-## objy
-
-A module for building object-driven programs. In objy everyting is a behaviour-driven object, which controls and observes itself.
-
-Full example:
-
-```luke
-use objy.luke.js;
-
-define obbjectFamily with name car and pluralName cars;
-
-add car with name "Mercedes";
-
-get cars with name "Mercedes";
-
-update car "id123" set name "Chevrolet";
-```
-
-### define objectFamily
-
-Define an object family.
-
-```luke
-define objectFamily with name car and pluralName cars
-```
-
-### add {object} {data}
-
-Add an object
-
-```luke
-add car with name "Mercedes" and color "silver";
-
-// or
-
-add car {name: "Mercedes", color: "silver"}
-```
-
-### get {object} {id}
-
-Get a single object
-
-```luke
-get car "id123";
-```
-
-### get {objects} {query}
-
-Get multiple objects matching a query
-
-```luke
-get cars with name "Mercedes"
-
-//or
-
-get cars {name: "Mercedes"}
-```
-
-
-
-
-
 # Add your module
 
 In order to add your module to this repo you must meet the following constraints:
 
-* Module name must be: <MODULENAME>.luke.js
-* Modules must be single files
-* Modules must be added to the modules folder of this repo
-* A proper module documentation must be added to the readme file
+* Module has to be a folder under /modules
+* Module main file must be called index.luke.js
+* A proper module documentation (Readme.md) must be added to your module directory
 
 ***Module documentation format:***
 
