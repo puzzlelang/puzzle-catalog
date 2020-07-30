@@ -26,6 +26,7 @@ syntax = {
                     if (err) return global.luke.output(err);
                     global.luke.output(data);
                     if (done) done();
+                    syntax.context.qBody = {};
                 })
             } else if (done) done();
         }
