@@ -363,7 +363,7 @@ function Client(t, e, i, o, s) {
         (this.auth = function(t, i, o, s) {
             s || (s = !1),
                 (e += RESSOURCE.AUTH),
-                (this.data = { username: t, password: i }),
+                (this.data = { username: t, password: i, permanent: true }),
                 ajax(
                     'POST',
                     e,
