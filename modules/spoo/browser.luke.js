@@ -3,7 +3,7 @@ var SPOO = require('./spooclient.js');
 
 var spoo = new SPOO();
 
-var syntax = {
+syntax = {
     delimeter: ";",
     assignmentOperator: "=",
     context: {
@@ -65,7 +65,7 @@ var syntax = {
                     console.log(url)
                 }
             },
-            define: { 
+            define: {
                 follow: ["$objectFamily"],
                 method: function(ctx) {
                     console.log('define');

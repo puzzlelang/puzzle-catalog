@@ -36,7 +36,6 @@ var syntax = {
                 method: function(ctx, html) {
                     syntax.context.html = html;
                     console.log('html', html);
-
                 }
             },
             style: {
