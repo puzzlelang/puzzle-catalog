@@ -66,8 +66,7 @@ syntax = {
             },
             define: {
                 follow: ["$objectFamily"],
-                method: function(ctx) {
-                }
+                method: function(ctx) {}
             },
 
             // crud
@@ -96,8 +95,7 @@ syntax = {
 
             objectFamily: {
                 follow: ["$set", "$width", "${ofName}", "{name}"],
-                method: function(ctx, p) {
-                }
+                method: function(ctx, p) {}
             },
             set: {
                 follow: ["{name}", "$set", "$and", "$with", "$exec"],
@@ -114,7 +112,7 @@ syntax = {
             },
             and: {
                 follow: ["$set", "$width", "{sf}"],
-                method: function(ctx, p) {global.luke.output
+                method: function(ctx, p) {
                 }
             }
         }
