@@ -136,32 +136,6 @@ if ('undefined' != typeof module && module.exports) {
     //(localStorage = new LocalStorage('./localStorage')), (sessionStorage = require('sessionstorage'));
 }
 
-var localStorage = {
-    data: {},
-    setItem: function(key, item) {
-        this.data[key] = item;
-    },
-    getItem: function(key) {
-        return this.data[key]
-    },
-    removeItem: function(key) {
-        delete this.data[key]
-    }
-}
-
-var sessionStorage = {
-    data: {},
-    setItem: function(key, item) {
-        this.data[key] = item;
-    },
-    getItem: function(key) {
-        return this.data[key]
-    },
-    removeItem: function(key) {
-        delete this.data[key]
-    }
-}
-
 var APPID,
     URL = 'https://spoo.io/api',
     RESSOURCE = {
