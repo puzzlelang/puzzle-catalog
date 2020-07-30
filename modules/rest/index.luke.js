@@ -61,7 +61,7 @@ var syntax = {
                 follow: ["{url}"],
                 method: function(ctx,url) {
                     call(syntax.context.method, url, syntax.context.payload, function(data) {
-                        console.log(data);
+                        global.luke.output(data);
                     });
 
                 }
@@ -70,7 +70,7 @@ var syntax = {
                 follow: ["{url}"],
                 method: function(ctx,url) {
                     call(syntax.context.method, url, syntax.context.payload, function(data) {
-                        console.log(data);
+                        global.luke.output(data);
                     });
                 }
             }

@@ -1,4 +1,5 @@
 (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
+(function (global){
 var SPOO = require('./spooclient.js');
 
 var spoo = new SPOO();
@@ -15,8 +16,6 @@ syntax = {
 
             if (syntax.context.objectFamily) {
 
-                console.log(syntax.context.qBody);
-
                 var body = syntax.context.qBody;
 
                 if (syntax.context.qBody.id) {
@@ -24,8 +23,8 @@ syntax = {
                 }
 
                 spoo.io()[syntax.context.objectFamily](body)[syntax.context.method](function(data, err) {
-                    if (err) return console.log(err);
-                    console.log(data);
+                    if (err) return global.luke.output(err);
+                    global.luke.output(data);
                     if (done) done();
                 })
             } else if (done) done();
@@ -52,8 +51,8 @@ syntax = {
                 method: function(ctx, cr) {
                     syntax.context['credentials'] = cr;
                     spoo.io().auth(cr.username, cr.password, function(data, err) {
-                        if (err) return console.log('Authentication failed ', err);
-                        console.log('Authenticated', data);
+                        if (err) return global.luke.output('Authentication failed ', err);
+                        global.luke.output('Authenticated', data);
                         syntax.static.execStatement();
                     }, true)
                 }
@@ -62,13 +61,11 @@ syntax = {
                 follow: ["{url}"],
                 method: function(ctx, url) {
                     syntax.context['importUrl'] = url;
-                    console.log(url)
                 }
             },
             define: {
                 follow: ["$objectFamily"],
                 method: function(ctx) {
-                    console.log('define');
                 }
             },
 
@@ -99,27 +96,24 @@ syntax = {
             objectFamily: {
                 follow: ["$set", "$width", "${ofName}", "{name}"],
                 method: function(ctx, p) {
-                    console.log('objectFamily(' + p + ')');
                 }
             },
             set: {
                 follow: ["{name}", "$set", "$and", "$with", "$exec"],
                 method: function(ctx, r) {
                     //console.log(r);
-                    console.log('set(' + r + ')');
+
                 }
             },
             "width": {
                 follow: ["{key,value}", "$and"],
                 method: function(ctx, p) {
-                    console.log('width', p);
                     syntax.context.qBody[p.key] = p.value
                 }
             },
             and: {
                 follow: ["$set", "$width", "{sf}"],
-                method: function(ctx, p) {
-                    console.log('and', p);
+                method: function(ctx, p) {global.luke.output
                 }
             }
         }
@@ -128,6 +122,7 @@ syntax = {
 
 
 module.exports = syntax;
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{"./spooclient.js":2}],2:[function(require,module,exports){
 var environment = 'browser';
 if ('undefined' != typeof module && module.exports) {

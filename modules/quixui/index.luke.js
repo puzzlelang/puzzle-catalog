@@ -5,8 +5,9 @@ var syntax = {
         attrs: {}
     },
     static: {
-        execStatement: function() {
-            console.log('ctx', this.context)
+        execStatement: function(done) {
+            global.luke.output;
+            if(done) done();
         }
     },
     $: {
@@ -15,7 +16,7 @@ var syntax = {
                 follow: ["{element}", "$with"],
                 method: function(ctx, el) {
                     syntax.context['element'] = el;
-                    console.log('using', el)
+                    global.luke.output('using', el)
                 }
             },
             with: {

@@ -14,8 +14,6 @@ syntax = {
 
             if (syntax.context.objectFamily) {
 
-                console.log(syntax.context.qBody);
-
                 var body = syntax.context.qBody;
 
                 if (syntax.context.qBody.id) {
@@ -23,8 +21,8 @@ syntax = {
                 }
 
                 spoo.io()[syntax.context.objectFamily](body)[syntax.context.method](function(data, err) {
-                    if (err) return console.log(err);
-                    console.log(data);
+                    if (err) return global.luke.output(err);
+                    global.luke.output(data);
                     if (done) done();
                 })
             } else if (done) done();
@@ -51,8 +49,8 @@ syntax = {
                 method: function(ctx, cr) {
                     syntax.context['credentials'] = cr;
                     spoo.io().auth(cr.username, cr.password, function(data, err) {
-                        if (err) return console.log('Authentication failed ', err);
-                        console.log('Authenticated', data);
+                        if (err) return global.luke.output('Authentication failed ', err);
+                        global.luke.output('Authenticated', data);
                         syntax.static.execStatement();
                     }, true)
                 }
@@ -61,13 +59,11 @@ syntax = {
                 follow: ["{url}"],
                 method: function(ctx, url) {
                     syntax.context['importUrl'] = url;
-                    console.log(url)
                 }
             },
             define: {
                 follow: ["$objectFamily"],
                 method: function(ctx) {
-                    console.log('define');
                 }
             },
 
@@ -98,27 +94,24 @@ syntax = {
             objectFamily: {
                 follow: ["$set", "$width", "${ofName}", "{name}"],
                 method: function(ctx, p) {
-                    console.log('objectFamily(' + p + ')');
                 }
             },
             set: {
                 follow: ["{name}", "$set", "$and", "$with", "$exec"],
                 method: function(ctx, r) {
                     //console.log(r);
-                    console.log('set(' + r + ')');
+
                 }
             },
             "width": {
                 follow: ["{key,value}", "$and"],
                 method: function(ctx, p) {
-                    console.log('width', p);
                     syntax.context.qBody[p.key] = p.value
                 }
             },
             and: {
                 follow: ["$set", "$width", "{sf}"],
-                method: function(ctx, p) {
-                    console.log('and', p);
+                method: function(ctx, p) {global.luke.output
                 }
             }
         }

@@ -6,13 +6,13 @@ var syntax = {
             define: {
                 follow: ["$objectFamily"],
                 method: function(ctx) {
-                    console.log('define');
+                    global.luke.output('define');
                 }
             },
             add: {
                 follow: ["{name}", "$width"],
                 method: function(ctx, p) {
-                    console.log('add(' + p + ')');
+                    global.luke.output('add(' + p + ')');
                 }
             },
             obj: {
@@ -24,26 +24,26 @@ var syntax = {
             objectFamily: {
                 follow: ["$set", "$width", "${ofName}", "{name}"],
                 method: function(ctx, p) {
-                    console.log('objectFamily(' + p + ')');
+                    global.luke.output('objectFamily(' + p + ')');
                 }
             },
             set: {
                 follow: ["{name}", "$set", "$and", "$with", "$exec"],
                 method: function(ctx,r) {
                     //console.log(r);
-                    console.log('set(' + r + ')');
+                    global.luke.outputglobal.luke.output('set(' + r + ')');
                 }
             },
             "width": {
                 follow: ["{name}", "$and"],
                 method: function(ctx,p) {
-                    console.log('width(' + p + ')');
+                    global.luke.output('width(' + p + ')');
                 }
             },
             and: {
                 follow: ["$set", "$width", "{sf}"],
                 method: function(ctx,p) {
-                    console.log('and', p);
+                    global.luke.output('and', p);
                 }
             }
         }
