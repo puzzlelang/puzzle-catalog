@@ -64,7 +64,7 @@ var syntax = {
                     console.log(url)
                 }
             },
-            define: {
+            define: { 
                 follow: ["$objectFamily"],
                 method: function(ctx) {
                     console.log('define');

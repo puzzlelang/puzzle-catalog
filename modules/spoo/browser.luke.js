@@ -6,11 +6,29 @@ var spoo = new SPOO();
 var syntax = {
     delimeter: ";",
     assignmentOperator: "=",
-    context: {},
+    context: {
+        qBody: {}
+    },
     static: {
         execStatement: function(done) {
             console.log('exec statement');
-            if (done) done();
+
+            if (syntax.context.objectFamily) {
+
+                console.log(syntax.context.qBody);
+
+                var body = syntax.context.qBody;
+
+                if (syntax.context.qBody.id) {
+                    body = syntax.context.qBody.id;
+                }
+
+                spoo.io()[syntax.context.objectFamily](body)[syntax.context.method](function(data, err) {
+                    if (err) return console.log(err);
+                    console.log(data);
+                    if (done) done();
+                })
+            } else if (done) done();
         }
     },
     $: {
@@ -33,11 +51,11 @@ var syntax = {
                 follow: ["{username,password}"],
                 method: function(ctx, cr) {
                     syntax.context['credentials'] = cr;
-                    spoo.io().auth({ username: cr.username, password: cr.password, permanent: true }, function(data, err) {
+                    spoo.io().auth(cr.username, cr.password, function(data, err) {
                         if (err) return console.log('Authentication failed ', err);
                         console.log('Authenticated', data);
                         syntax.static.execStatement();
-                    })
+                    }, true)
                 }
             },
             from: {
@@ -47,24 +65,37 @@ var syntax = {
                     console.log(url)
                 }
             },
-            define: {
+            define: { 
                 follow: ["$objectFamily"],
                 method: function(ctx) {
                     console.log('define');
                 }
             },
+
+            // crud
+            get: {
+                follow: ["{name}", "$width"],
+                method: function(ctx, p) {
+                    syntax.context.objectFamily = p;
+                    syntax.context.method = 'get';
+                }
+            },
             add: {
                 follow: ["{name}", "$width"],
                 method: function(ctx, p) {
-                    console.log('add(' + p + ')');
+                    syntax.context.objectFamily = p;
+                    syntax.context.method = 'add';
                 }
             },
-            obj: {
-                follow: ["$set"],
-                method: function(ctx) {
+            delete: {
+                follow: ["{name}", "$width"],
+                method: function(ctx, p) {
+                    syntax.context.objectFamily = p;
+                    syntax.context.method = 'delete';
+                }
+            },
 
-                }
-            },
+
             objectFamily: {
                 follow: ["$set", "$width", "${ofName}", "{name}"],
                 method: function(ctx, p) {
@@ -79,9 +110,10 @@ var syntax = {
                 }
             },
             "width": {
-                follow: ["{name}", "$and"],
+                follow: ["{key,value}", "$and"],
                 method: function(ctx, p) {
-                    console.log('width(' + p + ')');
+                    console.log('width', p);
+                    syntax.context.qBody[p.key] = p.value
                 }
             },
             and: {
