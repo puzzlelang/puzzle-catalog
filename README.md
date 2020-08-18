@@ -20,7 +20,7 @@ use path/to/<MODULE>.js
 ```
 
 
-# Modules
+# Modules List
 
 | Module        | Description  |
 | ------------- |-------------| 
