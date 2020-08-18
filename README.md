@@ -1,4 +1,4 @@
-# luke catalog
+# How to use modules
  
 A collection of official luke modules.
 
