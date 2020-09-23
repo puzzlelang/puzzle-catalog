@@ -2,13 +2,13 @@
  
 This is the official repo for puzzle modules.
 
-> You can directly load your required module remotely (without installation) from this repo.
+> You can directly load your required module remotely (without installation) from this repo. jsDelivr is used as url shortener.
 
 ```puzzle
-use https://raw.githubusercontent.com/puzzle-lang/puzzle-catalog/master/modules/<MODULE>/index.puzzle.js
+use https://cdn.jsdelivr.net/gh/puzzlelang/puzzle-catalog/modules/<NAME>/index.puzzle.js
 
 // If you'd like to cache a remote module for future access, use the `permanent`:
-use permanent https://raw.githubusercontent.com/puzzle-lang/puzzle-catalog/master/modules/<MODULE>/index.puzzle.js
+use permanent https://cdn.jsdelivr.net/gh/puzzlelang/puzzle-catalog/modules/<NAME>/index.puzzle.js
 ```
 
 # Modules 
