@@ -2,11 +2,7 @@
  
 This is the official repo for puzzle modules.
 
-# Install a module
-
-You can directly load your required module remotely (without installation) from this repo or use it locally
-
-> remote (no installation)
+> You can directly load your required module remotely (without installation) from this repo.
 
 ```puzzle
 use https://raw.githubusercontent.com/puzzle-lang/puzzle-catalog/master/modules/<MODULE>/index.puzzle.js
