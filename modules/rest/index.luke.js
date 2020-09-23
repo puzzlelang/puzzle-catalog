@@ -24,53 +24,53 @@ var syntax = {
         rest: {
             POST: {
                 follow: ["{data}", "$to"],
-                method: function(ctx,data) {
+                method: function(ctx, data) {
                     syntax.context.method = 'post';
                     syntax.context.payload = data;
                 }
             },
             PATCH: {
                 follow: ["{data}", "$to"],
-                method: function(ctx,data) {
+                method: function(ctx, data) {
                     syntax.context.method = 'patch';
                     syntax.context.payload = data;
                 }
             },
             PUT: {
                 follow: ["{data}", "$to"],
-                method: function(ctx,data) {
+                method: function(ctx, data) {
                     syntax.context.method = 'put';
                     syntax.context.payload = data;
                 }
             },
             GET: {
                 follow: ["$from", "{query}"],
-                method: function(ctx,query) {
+                method: function(ctx, query) {
                     syntax.context.method = 'get';
                     syntax.context.payload = query;
                 }
             },
             DELETE: {
                 follow: ["$from", "{query}"],
-                method: function(ctx,query) {
+                method: function(ctx, query) {
                     syntax.context.method = 'delete';
                     syntax.context.payload = query;
                 }
             },
             to: {
                 follow: ["{url}"],
-                method: function(ctx,url) {
+                method: function(ctx, url) {
                     call(syntax.context.method, url, syntax.context.payload, function(data) {
-                        global.luke.output(data);
+                        global.puzzle.output(data);
                     });
 
                 }
             },
             from: {
                 follow: ["{url}"],
-                method: function(ctx,url) {
+                method: function(ctx, url) {
                     call(syntax.context.method, url, syntax.context.payload, function(data) {
-                        global.luke.output(data);
+                        global.puzzle.output(data);
                     });
                 }
             }

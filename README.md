@@ -1,46 +1,35 @@
-# How to use modules
+# Puzzle modules repo
  
-A collection of official luke modules.
+This is the official repo for puzzle modules.
+
+# Install a module
 
 You can directly load your required module remotely (without installation) from this repo or use it locally
 
 > remote (no installation)
 
-```luke
-use https://raw.githubusercontent.com/luke-lang/luke-catalog/master/modules/<MODULE>/index.luke.js
+```puzzle
+use https://raw.githubusercontent.com/puzzle-lang/puzzle-catalog/master/modules/<MODULE>/index.puzzle.js
 
 // If you'd like to cache a remote module for future access, use the `permanent`:
-use permanent https://raw.githubusercontent.com/luke-lang/luke-catalog/master/modules/<MODULE>/index.luke.js
+use permanent https://raw.githubusercontent.com/puzzle-lang/puzzle-catalog/master/modules/<MODULE>/index.puzzle.js
 ```
 
-> local
-
-```luke
-use path/to/<MODULE>.js
-```
-
-
-# Modules List
+# Modules 
 
 | Module        | Description  |
 | ------------- |-------------| 
-| [Default (built-in)](...) | Default module that contains the basic luke syntax | 
-| [REST]() | ... | 
+| [Default (built-in)](https://puzzlelang.github.io/#/LANGUAGE) | Default module that contains the basic puzzle syntax | 
+| [REST](https://github.com/puzzlelang/puzzle-catalog/tree/master/modules/rest) | A REST client for consuming any HTTP Interface| 
 
 
 # Add your module
 
 You are welcome to contribute modules to the ecosystem with a PR.
 
-In order to add your module to this repo, it must comply with the following conditions:
+In order to add your module to this repo, it must follow with the following conditions:
 
 * Module has to be a folder under `/modules`
-* Module main file must be called `index.luke.js`
+* Module main file must be called `index.puzzle.js`
+* If you have different builds for specific environments, call them like `browser.puzzle.js`
 * A proper module documentation (Readme.md) must be added to your module directory
-
-> Different environments
-
-If you have different bundles for different environments (like browser or node) you should name them so.
-
-The Node.js compartible version shoule be called `index.luke.js`.
-Other versions shoule be called like `browser.luke.js`. 

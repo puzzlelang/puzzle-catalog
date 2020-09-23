@@ -23,8 +23,8 @@ syntax = {
                 }
 
                 spoo.io()[syntax.context.objectFamily](body)[syntax.context.method](function(data, err) {
-                    if (err) return global.luke.output(err);
-                    global.luke.output(data);
+                    if (err) return global.puzzle.output(err);
+                    global.puzzle.output(data);
                     if (done) done();
                     syntax.context.qBody = {};
                 })
@@ -52,8 +52,8 @@ syntax = {
                 method: function(ctx, cr) {
                     syntax.context['credentials'] = cr;
                     spoo.io().auth(cr.username, cr.password, function(data, err) {
-                        if (err) return global.luke.output('Authentication failed ', err);
-                        global.luke.output('Authenticated', data);
+                        if (err) return global.puzzle.output('Authentication failed ', err);
+                        global.puzzle.output('Authenticated', data);
                         syntax.static.execStatement();
                     }, true)
                 }

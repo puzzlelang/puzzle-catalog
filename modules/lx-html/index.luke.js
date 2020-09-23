@@ -23,7 +23,7 @@ var syntax = {
 
                 lxhtmlBus.$emit('custom-content', data)
 
-            } else global.luke.output('lx-html can not be run in this environment')
+            } else global.puzzle.output('lx-html can not be run in this environment')
 
             done();
         }
