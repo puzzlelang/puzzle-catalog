@@ -20,7 +20,19 @@ var syntax = {
             console.log('executing...');
             console.log('ctx', syntax.context);
 
-            if (syntax.context.messageCreationData) {
+            if (syntax.context.createTokenRequest) {
+                fetch(KJU_URL + '/creationToken', {
+                        method: 'post',
+                        headers: { 'Content-Type': 'application/json' },
+                    })
+                    .then(res => res.json())
+                    .then(json => {
+                        console.log(json);
+                        KJU_CREATION_TOKEN = json.data;
+                        done();
+                        syntax.context = {}
+                    });
+            } else if (syntax.context.messageCreationData) {
 
                 fetch(KJU_URL + '/message?token=' + KJU_CREATION_TOKEN, {
                         method: 'post',
@@ -29,8 +41,9 @@ var syntax = {
                     })
                     .then(res => res.json())
                     .then(json => {
-                        console.log('done (raw)', json)
+                        console.log(json)
                         done();
+                        syntax.context = {}
                     });
 
             } else {
@@ -45,8 +58,9 @@ var syntax = {
                     })
                     .then(res => res.json())
                     .then(json => {
-                        console.log('ööö', json)
+                        console.log(json)
                         done();
+                        syntax.context = {}
                     });
             }
         }
@@ -59,8 +73,26 @@ var syntax = {
                     syntax.context.method = 'create';
                 }
             },
+            redeem: {
+                follow: ["$response"],
+                method: function(ctx, data) {
+                    syntax.context.method = 'redeem';
+                }
+            },
+            response: {
+                follow: ["{resId}", "$of"],
+                method: function(ctx, data) {
+                    syntax.context.responseId = data;
+                }
+            },
             and: {
                 follow: ["$and", "$message", "$content", "$responses"],
+                method: function(ctx) {
+
+                }
+            },
+            of: {
+                follow: ["$message"],
                 method: function(ctx) {
 
                 }
@@ -86,22 +118,20 @@ var syntax = {
             message: {
                 follow: ["{data}", "$with"],
                 method: function(ctx, data) {
-                    if(data) syntax.context.messageCreationData = data;
+                    try {
+                        JSON.parse(data);
+                        if (data) syntax.context.messageCreationData = data;
+                    } catch(e){
+                        syntax.context.messageId = data;
+                    }
+
+                    
                 }
             },
             token: {
                 follow: ["{data}"],
                 method: function(ctx, data) {
-
-                    fetch(KJU_URL + '/creationToken', {
-                            method: 'post',
-                            headers: { 'Content-Type': 'application/json' },
-                        })
-                        .then(res => res.json())
-                        .then(json => {
-                            console.log(json);
-                            KJU_CREATION_TOKEN = json.data;
-                        });
+                    syntax.context.createTokenRequest = true;
                 }
             },
         }
