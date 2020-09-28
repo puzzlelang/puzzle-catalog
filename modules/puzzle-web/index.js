@@ -34,7 +34,7 @@ var syntax = {
                 follow: ["{html}"],
                 method: function(ctx, html) {
                     syntax.context.html = html;
-                    
+
                 }
             },
             style: {
