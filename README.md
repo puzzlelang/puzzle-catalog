@@ -16,7 +16,7 @@ use permanent https://cdn.jsdelivr.net/gh/puzzlelang/puzzle-catalog/modules/<NAM
 | Module        | Description  | Link |
 | ------------- |-------------| --- |
 | [Default (built-in)](https://puzzlelang.github.io/#/LANGUAGE) | Default module that contains the basic puzzle syntax |  |
-| [REST](https://github.com/puzzlelang/puzzle-catalog/tree/master/modules/rest) | A REST client for consuming any HTTP Interface| [Link](https://cdn.jsdelivr.net/gh/puzzlelang/puzzle-catalog/modules/rest/index.puzzle.js) |
+| [REST](https://github.com/puzzlelang/puzzle-catalog/tree/master/modules/rest) | A REST client for consuming any HTTP Interface| [CDN](https://cdn.jsdelivr.net/gh/puzzlelang/puzzle-catalog/modules/rest/index.puzzle.js) |
 
 
 # Add your module
@@ -26,6 +26,6 @@ You are welcome to contribute modules to the ecosystem with a PR.
 In order to add your module to this repo, it must follow with the following conditions:
 
 * Module has to be a folder under `/modules`
-* Module main file must be called `index.puzzle.js`
-* If you have different builds for specific environments, call them like `browser.puzzle.js`
+* Module main file must be called `index.js`
+* If you have different builds for specific environments, call them like `browser.js`
 * A proper module documentation (Readme.md) must be added to your module directory

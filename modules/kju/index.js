@@ -121,11 +121,9 @@ var syntax = {
                     try {
                         JSON.parse(data);
                         if (data) syntax.context.messageCreationData = data;
-                    } catch(e){
+                    } catch (e) {
                         syntax.context.messageId = data;
                     }
-
-                    
                 }
             },
             token: {
