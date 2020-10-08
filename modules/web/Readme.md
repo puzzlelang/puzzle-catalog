@@ -62,6 +62,9 @@ css (
 
 ### create element
 
+- Create an element: `create TAGNAME with id|style|click|text`
+- Create an element inside another one: `create TAGNAME inside ID with id|style|click|text`
+
 ```puzzle
 create div with id 123 and style "color:blue";
 
