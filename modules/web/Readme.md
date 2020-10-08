@@ -2,7 +2,6 @@
 
 Official puzzle module for building html sites using natural language.
 
-
 # Example
 
 ```puzzle
@@ -18,4 +17,59 @@ Official puzzle module for building html sites using natural language.
 	</script>
 </body>
 </html>
+```
+
+# Language
+
+The Language can be used by defining custom "native" html, js and css or by creating elements in natural language.
+
+## Native code
+
+### render html
+
+Render a html.
+
+```puzzle
+render (
+	<div>hello world</div>
+)
+```
+
+### javascript
+
+Inject custom javascript. 
+
+```puzzle
+js {
+	console.log('Hello World')
+}
+```
+
+### css
+
+Inject custom css. 
+
+```puzzle
+css (
+	body {
+		background:black;
+		color:white;
+	}
+)
+```
+
+## Natual language code
+
+### create element
+
+```puzzle
+create div with id 123 and style "color:blue";
+
+create button inside 123 with text "Click me" and click "alert('hi there')"
+```
+
+### get/alter an element
+
+```puzzle
+get div with id 123 and set style "color:red";
 ```
