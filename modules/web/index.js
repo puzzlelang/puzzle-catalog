@@ -177,6 +177,25 @@ var syntax = {
                         syntax.context.attrs['onclick'] = puzzle.getRawStatement(click);
                     }
                 },
+                element: {
+                    follow: ["{tag,body}"],
+                    method: function(ctx, body) {
+                        var element;
+                        try {
+                            element = eval('('+body.body+')');
+                        } catch(e){
+                            //console.error(e)
+                        }
+
+                        console.log('element', element)
+                        syntax.context.method = 'create';
+                        syntax.context.attrs = {};
+                        syntax.context.tagName = body.tag;
+                        Object.keys(element).forEach(k => {
+                            syntax.context.attrs[k] = element[k];
+                        })
+                    }
+                },
                 render: {
                     follow: ["{html}"],
                     method: function(ctx, html) {
