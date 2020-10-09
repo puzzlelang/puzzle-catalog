@@ -2,13 +2,16 @@
  
 This is the official repo for puzzle modules.
 
-> You can directly load your required module remotely (without installation) from this repo. jsDelivr is used as url shortener.
+> You can directly load your required module remotely (without installation) from this repo. jsDelivr is used as CDN.
 
 ```puzzle
-use https://cdn.jsdelivr.net/gh/puzzlelang/puzzle-catalog/modules/<NAME>/index.puzzle.js
+use https://cdn.jsdelivr.net/gh/puzzlelang/puzzle-catalog/modules/<NAME>/index.js
+
+// or use the '_catalog' shortener:
+use _catalog/<NAME>/index.js;
 
 // If you'd like to cache a remote module for future access, use the `permanent`:
-use permanent https://cdn.jsdelivr.net/gh/puzzlelang/puzzle-catalog/modules/<NAME>/index.puzzle.js
+use permanent https://cdn.jsdelivr.net/gh/puzzlelang/puzzle-catalog/modules/<NAME>/index.js
 ```
 
 # Modules 
