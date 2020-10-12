@@ -6,7 +6,7 @@ if ('undefined' != typeof module && module.exports) {
 }
 
 var APPID,
-    URL = 'https://spoo.io/api',
+    URL = 'https://spoo.rocks/api',
     RESSOURCE = {
         APPID: '/app',
         SHARED: '/shared/to/public',

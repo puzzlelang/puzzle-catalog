@@ -17,6 +17,7 @@ use permanent https://cdn.jsdelivr.net/gh/puzzlelang/puzzle-catalog/modules/<NAM
 | ------------- |-------------| --- |
 | [Default (built-in)](https://puzzlelang.github.io/#/LANGUAGE) | Default module that contains the basic puzzle syntax |  |
 | [REST](https://github.com/puzzlelang/puzzle-catalog/tree/master/modules/rest) | A REST client for consuming any HTTP Interface| [CDN](https://cdn.jsdelivr.net/gh/puzzlelang/puzzle-catalog/modules/rest/index.js) |
+| [web](https://github.com/puzzlelang/puzzle-catalog/tree/master/modules/web) | A module for building web interfaces with html+js+css using concepts of natual language | [CDN](https://cdn.jsdelivr.net/gh/puzzlelang/puzzle-catalog/modules/web/index.js) |
 
 
 # Add your module

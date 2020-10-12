@@ -14,7 +14,9 @@ Official puzzle module for building html sites using natural language.
 	<script type="text/x-puzzle">
 		use https://cdn.jsdelivr.net/gh/puzzlelang/puzzle-catalog/modules/web/index.js;
 
-		create div with text "hello world" and style "background:blue";
+		create div with id 123 and text "hello world" and style "background:blue";
+
+		create button inside 123 with text "click me" and onclick "alert('hello')"
 	</script>
 </body>
 </html>
