@@ -7,11 +7,8 @@ This is the official repo for puzzle modules.
 ```puzzle
 use https://cdn.jsdelivr.net/gh/puzzlelang/puzzle-catalog/modules/<NAME>/index.js
 
-// or use the '_catalog' shortener:
-use _catalog/<NAME>/index.js;
-
 // If you'd like to cache a remote module for future access, use the `permanent`:
-use permanent https://cdn.jsdelivr.net/gh/puzzlelang/puzzle-catalog/modules/<NAME>/index.js
+use permanent https://...
 ```
 
 # Modules 
