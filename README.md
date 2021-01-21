@@ -27,6 +27,38 @@ use permanent https://cdn.jsdelivr.net/gh/puzzlelang/puzzle-catalog/modules/<NAM
 
 You are welcome to contribute modules to the ecosystem with a PR.
 
+The following snipped can be used as a template for your module:
+
+```javascript
+// index.js
+var syntax = {
+        context: {},
+        static: {
+            execStatement: (done) => {
+                done();
+            }
+        },
+        $: {
+            module_name: {
+                token1: {
+                    follow: ["$token2"],
+                    method: function(ctx) {
+
+                    }
+                },
+                token2: {
+                    follow: ["{input}"],
+                    method: function(ctx, input) {
+                        console.log('input:', input)
+                    }
+                }
+            }
+        }
+    }
+
+if (_nodejs) module.exports = syntax;
+```
+
 In order to add your module to this repo, it must follow with the following conditions:
 
 * Module has to be a folder under `/modules`
