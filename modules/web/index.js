@@ -10,89 +10,89 @@ if (_nodejs) {
 
 var syntax = {
         context: {},
-        static: {
-            rootNode: 'body',
-            execStatement: (done) => {
-
-                function setAttrs(tag) {
-                    var handlers = ['onclick'];
-                    Object.keys(syntax.context.attrs).forEach(k => {
-                        console.log(k)
-                        if (handlers.includes(k)) {
-                            var code = syntax.context.attrs[k] + "";
-                            tag.onclick = function() {
-                                eval(code)
-                            }
-                        } else tag[k] = syntax.context.attrs[k]
-                    });
-                }
-
-                if(syntax.rootNode) syntax.static.rootNode = syntax.rootNode;
-
-                var rootNode = document.querySelector(syntax.static.rootNode);
-
-                var instructor = {
-                    create: function(context) {
-
-                        var tag = document.createElement(context.tagName);
-
-                        setAttrs(tag);
-                        console.log(tag)
-
-                        if (syntax.context.tagId) tag.id = syntax.context.tagId;
-
-                        // append
-                        if (!context.insideId) {
-                            rootNode.appendChild(tag); 
-                        } else {
-                            var innerRoot = document.getElementById(context.insideId);
-                            innerRoot.appendChild(tag);
-                        }
-                    },
-                    set: function(context) {
-                        var tag = document.getElementById(context.tagId);
-                        setAttrs(tag);
-                    },
-                    root: function(context) {
-                        rootNode = document.querySelector(context.rootNode);
-                    },
-                    load: function(context) {
-                        var tag;
-                        if(syntax.context.library.includes('.css'))
-                        {
-                            tag = document.createElement('link');
-                            tag.rel="sylesheet";
-                            tag.type = "text/css";
-                            tag.href=syntax.context.library;
-                        }
-                        document.head.appendChild(tag);
-                    },
-                    render: function()
-                    {
-                        rootNode.innerHTML = window.puzzle.getRawStatement(syntax.context.html);
-                    },
-                    js: function()
-                    {
-                        var script = document.createElement('script');
-                        script.innerText = window.puzzle.getRawStatement(syntax.context.js);
-                        document.body.appendChild(script)
-                    },
-                    css: function()
-                    {
-                        var style = document.createElement('style');
-                        console.log(syntax.context.css, window.puzzle.getRawStatement(syntax.context.css));
-                        style.innerText = window.puzzle.getRawStatement(syntax.context.css);
-                        document.body.appendChild(style)
-                    }
-                }
-                instructor[syntax.context.method](syntax.context);
-                syntax.context = {};
-                done();
-
-            }
-        },
         $: {
             web: {
+                _static: {
+                    rootNode: 'body',
+                    execStatement: (done) => {
+
+                        function setAttrs(tag) {
+                            var handlers = ['onclick'];
+                            Object.keys(syntax.context.attrs).forEach(k => {
+                                console.log(k)
+                                if (handlers.includes(k)) {
+                                    var code = syntax.context.attrs[k] + "";
+                                    tag.onclick = function() {
+                                        eval(code)
+                                    }
+                                } else tag[k] = syntax.context.attrs[k]
+                            });
+                        }
+
+                        if(syntax.$.web._static.rootNode) syntax.$.web._static.rootNode = syntax.$.web._static.rootNode;
+
+                        var rootNode = document.querySelector(syntax.$.web._static.rootNode);
+
+                        var instructor = {
+                            create: function(context) {
+
+                                var tag = document.createElement(context.tagName);
+
+                                setAttrs(tag);
+                                console.log(tag)
+
+                                if (syntax.context.tagId) tag.id = syntax.context.tagId;
+
+                                // append
+                                if (!context.insideId) {
+                                    rootNode.appendChild(tag); 
+                                } else {
+                                    var innerRoot = document.getElementById(context.insideId);
+                                    innerRoot.appendChild(tag);
+                                }
+                            },
+                            set: function(context) {
+                                var tag = document.getElementById(context.tagId);
+                                setAttrs(tag);
+                            },
+                            root: function(context) {
+                                rootNode = document.querySelector(context.rootNode);
+                            },
+                            load: function(context) {
+                                var tag;
+                                if(syntax.context.library.includes('.css'))
+                                {
+                                    tag = document.createElement('link');
+                                    tag.rel="sylesheet";
+                                    tag.type = "text/css";
+                                    tag.href=syntax.context.library;
+                                }
+                                document.head.appendChild(tag);
+                            },
+                            render: function()
+                            {
+                                rootNode.innerHTML = window.puzzle.getRawStatement(syntax.context.html);
+                            },
+                            js: function()
+                            {
+                                var script = document.createElement('script');
+                                script.innerText = window.puzzle.getRawStatement(syntax.context.js);
+                                document.body.appendChild(script)
+                            },
+                            css: function()
+                            {
+                                var style = document.createElement('style');
+                                console.log(syntax.context.css, window.puzzle.getRawStatement(syntax.context.css));
+                                style.innerText = window.puzzle.getRawStatement(syntax.context.css);
+                                document.body.appendChild(style)
+                            }
+                        }
+                        instructor[syntax.context.method](syntax.context);
+                        syntax.context = {};
+                        done();
+
+                    }
+                },
                 load: {
                     follow: ["{library}"],
                     method: function(ctx, library) {
