@@ -1,80 +1,87 @@
-const request = require('request');
+if(global.puzzle.environment == 'node') fetch = require('node-fetch');
 
 function call(method, url, data, callback) {
 
     var options = {
         method,
-        uri: url,
     };
 
-    if (method == 'post') options.postData = data;
-    else if (method == 'get') options.uri += '?' + data;
-    else if (method == 'delete') options.postData = data;
+    if (method == 'post') options.body = data;
+    else if (method == 'get') url += '?' + data;
+    else if (method == 'delete') options.body = data;
 
-    request(options, function(error, response, body) {
-        if (callback) callback(body)
-    })
+
+    fetch(url, options).then(res => res.text())
+    .then(text => {
+        //console.log(text)
+        callback(text)
+       });
 }
 
 var syntax = {
-    delimeter: ";",
-    assignmentOperator: "=",
-    context: {},
     $: {
         rest: {
-            POST: {
-                follow: ["{data}", "$to"],
-                method: function(ctx, data) {
-                    syntax.context.method = 'post';
-                    syntax.context.payload = data;
+            _static: {
+                execStatement: function(done, ctx) {
+                    if(!ctx.url) return;
+                    call(ctx.method, ctx.url, ctx.payload, function(data) {
+                        //global.puzzle.output(data);
+                        ctx.return = data;
+                        global.puzzle.vars['result'] = data;
+                        done();
+                    });
+
                 }
             },
-            PATCH: {
+            post: {
                 follow: ["{data}", "$to"],
                 method: function(ctx, data) {
-                    syntax.context.method = 'patch';
-                    syntax.context.payload = data;
+                    ctx.method = 'post';
+                    ctx.payload = data;
                 }
             },
-            PUT: {
+            patch: {
                 follow: ["{data}", "$to"],
                 method: function(ctx, data) {
-                    syntax.context.method = 'put';
-                    syntax.context.payload = data;
+                    ctx.method = 'patch';
+                    ctx.payload = data;
                 }
             },
-            GET: {
+            put: {
+                follow: ["{data}", "$to"],
+                method: function(ctx, data) {
+                    ctx.method = 'put';
+                    ctx.payload = data;
+                }
+            },
+            get: {
                 follow: ["$from", "{query}"],
                 method: function(ctx, query) {
-                    syntax.context.method = 'get';
-                    syntax.context.payload = query;
+                    ctx.method = 'get';
+                    ctx.payload = query;
                 }
             },
-            DELETE: {
+            delete: {
                 follow: ["$from", "{query}"],
                 method: function(ctx, query) {
-                    syntax.context.method = 'delete';
-                    syntax.context.payload = query;
+                    ctx.method = 'delete';
+                    ctx.payload = query;
                 }
             },
             to: {
                 follow: ["{url}"],
                 method: function(ctx, url) {
-                    call(syntax.context.method, url, syntax.context.payload, function(data) {
-                        global.puzzle.output(data);
-                    });
-
+                    ctx.url = url;
                 }
             },
             from: {
                 follow: ["{url}"],
                 method: function(ctx, url) {
-                    call(syntax.context.method, url, syntax.context.payload, function(data) {
-                        global.puzzle.output(data);
-                    });
+                    ctx.url = url;
                 }
             }
         }
     }
 }
-module.exports = syntax;
+
+if(global.puzzle.environment == 'node') module.exports = syntax;
