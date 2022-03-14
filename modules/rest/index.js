@@ -1,4 +1,4 @@
-if(global.puzzle.environment == 'node') fetch = require('node-fetch');
+if ((typeof process !== 'undefined') && ((process.release || {}).name === 'node')) fetch = require('node-fetch');
 
 function call(method, url, data, callback) {
 
@@ -25,9 +25,7 @@ var syntax = {
                 execStatement: function(done, ctx) {
                     if(!ctx.url) return;
                     call(ctx.method, ctx.url, ctx.payload, function(data) {
-                        //global.puzzle.output(data);
                         ctx.return = data;
-                        global.puzzle.vars['result'] = data;
                         done();
                     });
 
@@ -84,4 +82,4 @@ var syntax = {
     }
 }
 
-if(global.puzzle.environment == 'node') module.exports = syntax;
+if ((typeof process !== 'undefined') && ((process.release || {}).name === 'node')) module.exports = syntax;
