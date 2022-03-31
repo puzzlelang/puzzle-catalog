@@ -11,7 +11,7 @@ if (_nodejs) {
 var syntax = {
         context: {},
         $: {
-            web: {
+            ui: {
                 _static: {
                     rootNode: 'body',
                     execStatement: (done) => {
@@ -30,7 +30,7 @@ var syntax = {
                             });
                         }
                         
-                        var rootNode = document.querySelector(syntax.$.web._static.rootNode);
+                        var rootNode = document.querySelector(syntax.$.ui._static.rootNode);
 
                         var instructor = {
                             create: function(context) {
@@ -104,7 +104,7 @@ var syntax = {
                     method: function(ctx, selector) {
                         syntax.context.method = 'root';
                         syntax.context.rootNode = window.puzzle.getRawStatement(selector);
-                        syntax.$.web._static.rootNode = window.puzzle.getRawStatement(selector);
+                        syntax.$.ui._static.rootNode = window.puzzle.getRawStatement(selector);
                     }
                 },
                 create: {
