@@ -23,7 +23,8 @@ var syntax = {
                                 if (handlers.includes(k)) {
                                     var code = syntax.context.attrs[k] + "";
                                     tag.onclick = function() {
-                                        eval(code)
+                                        //eval(code)
+                                        window.puzzle.parse(code)
                                     }
                                 } else tag[k] = syntax.context.attrs[k]
                             });
