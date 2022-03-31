@@ -102,8 +102,8 @@ var syntax = {
                     follow: ["{selector}"],
                     method: function(ctx, selector) {
                         syntax.context.method = 'root';
-                        syntax.context.rootNode = selector;
-                        syntax.$.web._static.rootNode = selector;
+                        syntax.context.rootNode = window.puzzle.getRawStatement(selector);
+                        syntax.$.web._static.rootNode = window.puzzle.getRawStatement(selector);
                     }
                 },
                 create: {
