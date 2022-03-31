@@ -28,9 +28,7 @@ var syntax = {
                                 } else tag[k] = syntax.context.attrs[k]
                             });
                         }
-
-                        if(syntax.$.web._static.rootNode) syntax.$.web._static.rootNode = syntax.$.web._static.rootNode;
-
+                        
                         var rootNode = document.querySelector(syntax.$.web._static.rootNode);
 
                         var instructor = {
@@ -105,6 +103,7 @@ var syntax = {
                     method: function(ctx, selector) {
                         syntax.context.method = 'root';
                         syntax.context.rootNode = selector;
+                        syntax.$.web._static.rootNode = selector;
                     }
                 },
                 create: {
