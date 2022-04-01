@@ -14,7 +14,7 @@ var syntax = {
             ui: {
                 _static: {
                     rootNode: 'body',
-                    execStatement: (done) => {
+                    execStatement: (done, ctx) => {
 
                         function setAttrs(tag) {
                             var handlers = ['onclick'];
@@ -216,6 +216,24 @@ var syntax = {
                     method: function(ctx, js) {
                         syntax.context.method = 'js';
                         syntax.context.js = js;
+                    }
+                },
+                alert: {
+                    follow: ["{message}"],
+                    method: function(ctx, message) {
+                        alert(message)
+                    }
+                },
+                confirm: {
+                    follow: ["{message}"],
+                    method: function(ctx, message) {
+                        ctx.return = confirm(message)
+                    }
+                },
+                prompt: {
+                    follow: ["{message}"],
+                    method: function(ctx, message) {
+                        ctx.return = prompt(message)
                     }
                 }
             }
