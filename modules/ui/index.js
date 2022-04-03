@@ -13,6 +13,10 @@ var syntax = {
         $: {
             ui: {
                 _static: {
+                    keyMappings: {38: 'up', 37:'left', 39:'down', 40:'right', 13:'enter', 46:'delete', 32:'space'},
+                    registeredKeyEvents: {
+
+                    },
                     rootNode: 'body',
                     execStatement: (done, ctx) => {
 
@@ -234,6 +238,35 @@ var syntax = {
                     follow: ["{message}"],
                     method: function(ctx, message) {
                         ctx.return = prompt(message)
+                    }
+                },
+                on: {
+                    follow: ["$key"],
+                    innerSequence: {
+                        key: {
+                            follow: ["{type,code}"],
+                            method: function(ctx, data) {
+                                
+                                var keyCode;
+
+                                Object.keys(syntax.$.ui._static.keyMappings).forEach(_m => {
+                                    if(syntax.$.ui._static.keyMappings[_m] == data.type){
+                                        keyCode = _m;
+                                    }
+                                })
+
+                                syntax.$.ui._static.registeredKeyEvents[keyCode] = window.puzzle.getRawStatement(data.code)
+
+                                document.onkeydown = function(e) {
+                                    if(syntax.$.ui._static.registeredKeyEvents[e.keyCode]){
+                                        window.puzzle.parse(syntax.$.ui._static.registeredKeyEvents[e.keyCode])
+                                    }
+                                };
+                            }
+                        }
+                    },
+                    method: function(ctx, message) {
+                        
                     }
                 }
             }
