@@ -1,8 +1,6 @@
-# puzzle ui
+# UI
 
 Official puzzle module for building html sites using natural language.
-
-# Example
 
 ```puzzle
 <html>
@@ -21,13 +19,9 @@ Official puzzle module for building html sites using natural language.
 </html>
 ```
 
-# Language
-
 The Language can be used by defining custom "native" html, js and css or by creating elements in natural language.
 
-## Native code
-
-### render html
+## Render html
 
 Render a html.
 
@@ -37,7 +31,7 @@ render (
 )
 ```
 
-### javascript
+## JavaScript
 
 Inject custom javascript. 
 
@@ -47,7 +41,7 @@ js {
 }
 ```
 
-### css
+## CSS
 
 Inject custom css. 
 
@@ -60,9 +54,7 @@ css (
 )
 ```
 
-## Natual language code
-
-### create element
+## Create element
 
 - Create an element: `create TAGNAME with id|style|click|text`
 - Create an element inside another one: `create TAGNAME inside ID with id|style|click|text`
@@ -73,8 +65,30 @@ create div with id 123 and style "color:blue";
 create button inside 123 with text "Click me" and click "alert('hi there')"
 ```
 
-### get/alter an element
+## get/alter an element
 
 ```puzzle
 get div with id 123 and set style "color:red";
 ```
+
+## User interactions
+
+```puzzle
+// Key interaction
+on key space (print "space key was pressed")
+
+// Notification
+alert Hello
+
+// User input box
+prompt "whats your name?"
+
+// Confirmation box
+confirm "are you sure"
+
+// Store a user input as variable
+prompt "whats your name" as name
+
+// Output it
+alert name
+``` 
