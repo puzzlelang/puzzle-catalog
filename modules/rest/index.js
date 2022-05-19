@@ -7,7 +7,7 @@ function call(method, url, data, callback) {
     };
 
     if (method == 'post') options.body = data;
-    else if (method == 'get') url += '?' + data;
+    else if (method == 'get' && data) url += '?' + data;
     else if (method == 'delete') options.body = data;
 
 
