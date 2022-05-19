@@ -14,6 +14,10 @@ function call(method, url, data, callback) {
     fetch(url, options).then(res => res.text())
     .then(text => {
         //console.log(text)
+        try {
+            text = JSON.parse(text)
+        } catch(e){};
+        
         callback(text)
        });
 }
