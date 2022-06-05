@@ -7,5 +7,8 @@
     "build": "ncc build index.dev.js -m -o dist && cp dist/index.js index.js"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "node-fetch": "^3.2.5"
+  }
 }
