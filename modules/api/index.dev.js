@@ -42,7 +42,11 @@ var syntax = {
             return: {
                 follow: ["{code}", "%and"],
                 method: function(ctx, data) {
-                   ctx.return = global.puzzle.getRawStatement(data)
+                   var ret = global.puzzle.getRawStatement(data);
+
+                   if(Object.byString(global.puzzle.vars, ret)) ctx.return = Object.byString(global.puzzle.vars, ret);
+                   
+                   ctx.return = ret;
                 }
             },
             and: {
