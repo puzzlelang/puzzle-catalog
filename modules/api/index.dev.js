@@ -10,8 +10,12 @@ var syntax = {
 
                     if(ctx.method){
                         router[ctx.method](ctx.path, _ctx => {
-                            global.puzzle.parse(ctx.code)
-                            _ctx.body = ctx.return;
+                            if(ctx.code) global.puzzle.parse(ctx.code)
+
+                            var _return = global.puzzle.getRawStatement(ctx.return);
+
+                            if(Object.byString(global.puzzle.vars, _return)) _ctx.body = Object.byString(global.puzzle.vars, _return);
+                            else _ctx.body = ctx.return;
                         })
 
                         app.use(router.routes());
@@ -27,7 +31,7 @@ var syntax = {
                 }
             },
             on: {
-                follow: ["{method,path}", "$run"],
+                follow: ["{method,path}", "$run", "$return"],
                 method: function(ctx, data) {
                    ctx.method = data.method;
                    ctx.path = data.path;
@@ -42,10 +46,7 @@ var syntax = {
             return: {
                 follow: ["{code}", "%and"],
                 method: function(ctx, data) {
-                   var ret = global.puzzle.getRawStatement(data);
-
-                   if(Object.byString(global.puzzle.vars, ret)) ctx.return = Object.byString(global.puzzle.vars, ret);
-                   
+                   var ret = data;
                    ctx.return = ret;
                 }
             },
