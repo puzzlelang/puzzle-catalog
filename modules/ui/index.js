@@ -4,11 +4,9 @@ if (_nodejs) {
     _nodejs = {
         version: process.versions.node
     };
-
-    const fetch = require('node-fetch');
 }
 
-var syntax = {
+        var syntax = {
         context: {},
         $: {
             ui: {
@@ -23,7 +21,6 @@ var syntax = {
                         function setAttrs(tag) {
                             var handlers = ['onclick'];
                             Object.keys(syntax.context.attrs).forEach(k => {
-                                console.log(k)
                                 if (handlers.includes(k)) {
                                     var code = syntax.context.attrs[k] + "";
                                     tag.onclick = function() {
@@ -42,7 +39,6 @@ var syntax = {
                                 var tag = document.createElement(context.tagName);
 
                                 setAttrs(tag);
-                                console.log(tag)
 
                                 if (syntax.context.tagId) tag.id = syntax.context.tagId;
 
@@ -52,6 +48,12 @@ var syntax = {
                                 } else {
                                     var innerRoot = document.getElementById(context.insideId);
                                     innerRoot.appendChild(tag);
+                                }
+
+                                if(ctx.dynamicAttrs) {
+                                    Object.keys(ctx.dynamicAttrs).forEach(t => {
+                                        tag.style[t] = ctx.dynamicAttrs[t]
+                                    })
                                 }
                             },
                             set: function(context) {
@@ -111,18 +113,36 @@ var syntax = {
                         syntax.$.ui._static.rootNode = window.puzzle.getRawStatement(selector);
                     }
                 },
+                define: {
+                    follow: ["{type,name,value}"],
+                    method: function(ctx, data) {
+
+                        if(data.type == 'class'){
+
+                            var tag = document.createElement('style');
+                            tag.type = 'text/css';
+                            tag.innerHTML = '.'+data.name+ ' {';
+
+                            tag.innerHTML += window.puzzle.getRawStatement(data.value)
+
+                            tag.innerHTML += '}';
+
+                            document.getElementsByTagName('head')[0].appendChild(tag);
+
+                        }
+
+                    }
+                },
                 create: {
-                    follow: ["{tagName}", "$width"],
+                    follow: ["{tagName}", "$with"],
                     method: function(ctx, tagName) {
                         syntax.context.method = 'create';
                         syntax.context.attrs = {};
-
-                       syntax.context.tagName = tagName;
-                        
+                        syntax.context.tagName = tagName;
                     }
                 },
                 get: {
-                    follow: ["{tagName}", "width"],
+                    follow: ["{tagName}", "with"],
                     method: function(ctx, tagName) {
                         syntax.context.method = 'set';
                         syntax.context.tagName = tagName;
@@ -135,9 +155,14 @@ var syntax = {
                         syntax.context.insideId = id;
                     }
                 },
-                width: {
-                    follow: ["$id"],
-                    method: function(ctx, param) {}
+                with: {
+                    follow: ["$id", "{key,value}"],
+                    method: function(ctx, data) {
+                        if(data) {
+                            if(!ctx.dynamicAttrs) ctx.dynamicAttrs = {};
+                            ctx.dynamicAttrs[data.key] = window.puzzle.getRawStatement(data.value);
+                        } 
+                    }
                 },
                 id: {
                     follow: ["{id}", "$and", "$set"],
@@ -152,9 +177,12 @@ var syntax = {
                     }
                 },
                 and: {
-                    follow: ["$style", "$click", "$text", "$class"],
-                    method: function(ctx, id) {
-                       
+                    follow: ["$style", "$click", "$text", "$class", "{key,value}"],
+                    method: function(ctx, data) {
+                        if(data) {
+                            if(!ctx.dynamicAttrs) ctx.dynamicAttrs = {};
+                            ctx.dynamicAttrs[data.key] = window.puzzle.getRawStatement(data.value);
+                        } 
                     }
                 },
                 text: {
@@ -172,32 +200,13 @@ var syntax = {
                 class: {
                     follow: ["{class}", "$and"],
                         method: function(ctx, _class) {
-                            syntax.context.attrs['class'] = puzzle.getRawStatement(_class);
+                            syntax.context.attrs['className'] = puzzle.getRawStatement(_class);
                         }
                 },
                 click: {
                     follow: ["{click}", "$and"],
                     method: function(ctx, click) {
                         syntax.context.attrs['onclick'] = puzzle.getRawStatement(click);
-                    }
-                },
-                element: {
-                    follow: ["{tag,body}"],
-                    method: function(ctx, body) {
-                        var element;
-                        try {
-                            element = eval('('+body.body+')');
-                        } catch(e){
-                            //console.error(e)
-                        }
-
-                        console.log('element', element)
-                        syntax.context.method = 'create';
-                        syntax.context.attrs = {};
-                        syntax.context.tagName = body.tag;
-                        Object.keys(element).forEach(k => {
-                            syntax.context.attrs[k] = element[k];
-                        })
                     }
                 },
                 render: {
