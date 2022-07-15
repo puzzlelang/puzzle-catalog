@@ -29,25 +29,22 @@ The following snipped can be used as a template for your module:
 ```javascript
 // index.js
 var syntax = {
-        context: {},
-        static: {
-            execStatement: (done) => {
-                done();
-            }
-        },
-        $: {
-            module_name: {
-                token1: {
-                    follow: ["$token2"],
-                    method: function(ctx) {
+        module_name: {
+            _static: {
+                execStatement: (done) => {
+                    done();
+                }
+            },
+            token1: {
+                follow: ["$token2"],
+                method: function(ctx) {
 
-                    }
-                },
-                token2: {
-                    follow: ["{input}"],
-                    method: function(ctx, input) {
-                        console.log('input:', input)
-                    }
+                }
+            },
+            token2: {
+                follow: ["{input}"],
+                method: function(ctx, input) {
+                    console.log('input:', input)
                 }
             }
         }
