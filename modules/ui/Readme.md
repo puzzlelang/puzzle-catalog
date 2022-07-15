@@ -5,7 +5,7 @@ Official puzzle module for building html sites using natural language.
 ```puzzle
 <html>
 <head>
-	<script src="puzzle.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/puzzlelang@latest/puzzle.browser.js"></script>
 </head>
 <body>
 	<script type="text/x-puzzle">
