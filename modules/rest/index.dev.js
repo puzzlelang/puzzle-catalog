@@ -23,7 +23,6 @@ function call(method, url, data, callback) {
 }
 
 var syntax = {
-    
         rest: {
             _static: {
                 execStatement: function(done, ctx) {
