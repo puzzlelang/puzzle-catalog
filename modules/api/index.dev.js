@@ -3,7 +3,7 @@ const router = require('@koa/router')();
 const app = new Koa();
 
 var syntax = {
-    $: {
+
         api: {
             _static: {
                  execStatement: (done, ctx) => {
@@ -57,6 +57,5 @@ var syntax = {
                 }
             }
         }
-    }
 }
 module.exports = syntax;

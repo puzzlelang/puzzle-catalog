@@ -29,7 +29,7 @@ syntax = {
             } else if (done) done();
         }
     },
-    $: {
+    
         spoo: {
             client: {
                 follow: ["{workspace}"],
@@ -114,7 +114,6 @@ syntax = {
                 }
             }
         }
-    }
 }
 
 

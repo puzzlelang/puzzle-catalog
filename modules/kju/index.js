@@ -65,7 +65,6 @@ var syntax = {
             }
         }
     },
-    $: {
         rest: {
             create: {
                 follow: ["$message", "$token"],
@@ -133,6 +132,5 @@ var syntax = {
                 }
             },
         }
-    }
 }
 module.exports = syntax;
