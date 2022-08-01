@@ -7,8 +7,6 @@ if (_nodejs) {
 }
 
         var syntax = {
-        context: {},
-        
             ui: {
                 _static: {
                     keyMappings: {38: 'up', 37:'left', 39:'down', 40:'right', 13:'enter', 46:'delete', 32:'space'},
