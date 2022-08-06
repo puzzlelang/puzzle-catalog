@@ -6,7 +6,7 @@ if (_nodejs) {
     };
 }
 
-        var syntax = {
+                var syntax = {
             ui: {
                 _static: {
                     keyMappings: {38: 'up', 37:'left', 39:'down', 40:'right', 13:'enter', 46:'delete', 32:'space'},
@@ -62,15 +62,33 @@ if (_nodejs) {
                                 rootNode = document.querySelector(context.rootNode);
                             },
                             load: function(context) {
-                                var tag;
-                                if(ctx.library.includes('.css'))
+                                if(context.library.includes('.css'))
                                 {
+                                    if(context.library.includes('http://') || context.library.includes('https://')){
+                                        fetch(context.library).then(response => response.text()).then(response => {
+                                            var tag;
+                                            tag = document.createElement('link');
+                                            tag.rel = 'stylesheet';
+                                            tag.innerText = response;
+                                            document.head.appendChild(tag);
+                                        })
+                                        .catch(error => {
+                                            // handle the error...
+                                        });
+                                        return
+                                    }
+                                    var tag;
                                     tag = document.createElement('link');
-                                    tag.rel="sylesheet";
-                                    tag.type = "text/css";
-                                    tag.href=ctx.library;
-                                }
-                                document.head.appendChild(tag);
+                                    tag.rel = 'stylesheet';
+                                    tag.href = context.library;
+                                    document.head.appendChild(tag);
+                                } else if(context.library.includes('.js')){
+                                    var tag;
+                                    tag=document.createElement('script')
+                                    tag.setAttribute("type","text/javascript")
+                                    tag.setAttribute("src", context.library);
+                                    document.getElementsByTagName("head")[0].appendChild(tag);
+                                } 
                             },
                             render: function()
                             {
