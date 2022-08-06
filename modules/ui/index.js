@@ -18,14 +18,14 @@ if (_nodejs) {
 
                         function setAttrs(tag) {
                             var handlers = ['onclick'];
-                            Object.keys(syntax.context.attrs).forEach(k => {
+                            Object.keys(ctx.attrs).forEach(k => {
                                 if (handlers.includes(k)) {
-                                    var code = syntax.context.attrs[k] + "";
+                                    var code = ctx.attrs[k] + "";
                                     tag.onclick = function() {
                                         //eval(code)
                                         window.puzzle.parse(code)
                                     }
-                                } else tag[k] = syntax.context.attrs[k]
+                                } else tag[k] = ctx.attrs[k]
                             });
                         }
                         
@@ -38,7 +38,7 @@ if (_nodejs) {
 
                                 setAttrs(tag);
 
-                                if (syntax.context.tagId) tag.id = syntax.context.tagId;
+                                if (ctx.tagId) tag.id = ctx.tagId;
 
                                 // append
                                 if (!context.insideId) {
@@ -63,35 +63,35 @@ if (_nodejs) {
                             },
                             load: function(context) {
                                 var tag;
-                                if(syntax.context.library.includes('.css'))
+                                if(ctx.library.includes('.css'))
                                 {
                                     tag = document.createElement('link');
                                     tag.rel="sylesheet";
                                     tag.type = "text/css";
-                                    tag.href=syntax.context.library;
+                                    tag.href=ctx.library;
                                 }
                                 document.head.appendChild(tag);
                             },
                             render: function()
                             {
-                                rootNode.innerHTML = window.puzzle.getRawStatement(syntax.context.html);
+                                rootNode.innerHTML = window.puzzle.getRawStatement(ctx.html);
                             },
                             js: function()
                             {
                                 var script = document.createElement('script');
-                                script.innerText = window.puzzle.getRawStatement(syntax.context.js);
+                                script.innerText = window.puzzle.getRawStatement(ctx.js);
                                 document.body.appendChild(script)
                             },
                             css: function()
                             {
                                 var style = document.createElement('style');
-                                console.log(syntax.context.css, window.puzzle.getRawStatement(syntax.context.css));
-                                style.innerText = window.puzzle.getRawStatement(syntax.context.css);
+                                console.log(ctx.css, window.puzzle.getRawStatement(ctx.css));
+                                style.innerText = window.puzzle.getRawStatement(ctx.css);
                                 document.body.appendChild(style)
                             }
                         }
-                        instructor[syntax.context.method](syntax.context);
-                        syntax.context = {};
+                        instructor[ctx.method](ctx);
+                        ctx = {};
                         done();
 
                     }
@@ -99,15 +99,15 @@ if (_nodejs) {
                 load: {
                     follow: ["{library}"],
                     method: function(ctx, library) {
-                        syntax.context.method = 'load';
-                        syntax.context.library = library;
+                        ctx.method = 'load';
+                        ctx.library = library;
                     }
                 },
                 root: {
                     follow: ["{selector}"],
                     method: function(ctx, selector) {
-                        syntax.context.method = 'root';
-                        syntax.context.rootNode = window.puzzle.getRawStatement(selector);
+                        ctx.method = 'root';
+                        ctx.rootNode = window.puzzle.getRawStatement(selector);
                         syntax.ui._static.rootNode = window.puzzle.getRawStatement(selector);
                     }
                 },
@@ -134,23 +134,23 @@ if (_nodejs) {
                 create: {
                     follow: ["{tagName}", "$with"],
                     method: function(ctx, tagName) {
-                        syntax.context.method = 'create';
-                        syntax.context.attrs = {};
-                        syntax.context.tagName = tagName;
+                        ctx.method = 'create';
+                        ctx.attrs = {};
+                        ctx.tagName = tagName;
                     }
                 },
                 get: {
                     follow: ["{tagName}", "with"],
                     method: function(ctx, tagName) {
-                        syntax.context.method = 'set';
-                        syntax.context.tagName = tagName;
-                        syntax.context.attrs = {};
+                        ctx.method = 'set';
+                        ctx.tagName = tagName;
+                        ctx.attrs = {};
                     }
                 },
                 inside: {
                     follow: ["{id}", "$and"],
                     method: function(ctx, id) {
-                        syntax.context.insideId = id;
+                        ctx.insideId = id;
                     }
                 },
                 with: {
@@ -165,7 +165,7 @@ if (_nodejs) {
                 id: {
                     follow: ["{id}", "$and", "$set"],
                     method: function(ctx, id) {
-                        syntax.context.tagId = id;
+                        ctx.tagId = id;
                     }
                 },
                 set: {
@@ -186,47 +186,47 @@ if (_nodejs) {
                 text: {
                     follow: ["{text}", "$and"],
                     method: function(ctx, text) {
-                        syntax.context.attrs['innerText'] = puzzle.getRawStatement(text);
+                        ctx.attrs['innerText'] = puzzle.getRawStatement(text);
                     }
                 },
                 style: {
                     follow: ["{style}", "$and"],
                     method: function(ctx, style) {
-                        syntax.context.attrs['style'] = puzzle.getRawStatement(style);
+                        ctx.attrs['style'] = puzzle.getRawStatement(style);
                     }
                 },
                 class: {
                     follow: ["{class}", "$and"],
                         method: function(ctx, _class) {
-                            syntax.context.attrs['className'] = puzzle.getRawStatement(_class);
+                            ctx.attrs['className'] = puzzle.getRawStatement(_class);
                         }
                 },
                 click: {
                     follow: ["{click}", "$and"],
                     method: function(ctx, click) {
-                        syntax.context.attrs['onclick'] = puzzle.getRawStatement(click);
+                        ctx.attrs['onclick'] = puzzle.getRawStatement(click);
                     }
                 },
                 render: {
                     follow: ["{html}"],
                     method: function(ctx, html) {
-                        syntax.context.method = 'render';
-                        syntax.context.html = html;
+                        ctx.method = 'render';
+                        ctx.html = html;
 
                     }
                 },
                 css: {
                     follow: ["{css}"],
                     method: function(ctx, css) {
-                        syntax.context.method = 'css';
-                        syntax.context.css = css;
+                        ctx.method = 'css';
+                        ctx.css = css;
                     }
                 },
                 js: {
                     follow: ["{js}"],
                     method: function(ctx, js) {
-                        syntax.context.method = 'js';
-                        syntax.context.js = js;
+                        ctx.method = 'js';
+                        ctx.js = js;
                     }
                 },
                 alert: {
