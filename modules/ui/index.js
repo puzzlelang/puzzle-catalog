@@ -53,13 +53,16 @@ if (_nodejs) {
                                         tag.style[t] = ctx.dynamicAttrs[t]
                                     })
                                 }
+                                done();
                             },
                             set: function(context) {
                                 var tag = document.getElementById(context.tagId);
                                 setAttrs(tag);
+                                done();
                             },
                             root: function(context) {
                                 rootNode = document.querySelector(context.rootNode);
+                                done();
                             },
                             load: function(context) {
                                 if(context.library.includes('.css'))
@@ -71,6 +74,7 @@ if (_nodejs) {
                                             tag.rel = 'stylesheet';
                                             tag.innerText = response;
                                             document.head.appendChild(tag);
+                                            done();
                                         })
                                         .catch(error => {
                                             // handle the error...
@@ -82,23 +86,27 @@ if (_nodejs) {
                                     tag.rel = 'stylesheet';
                                     tag.href = context.library;
                                     document.head.appendChild(tag);
+                                    done();
                                 } else if(context.library.includes('.js')){
                                     var tag;
                                     tag=document.createElement('script')
                                     tag.setAttribute("type","text/javascript")
                                     tag.setAttribute("src", context.library);
                                     document.getElementsByTagName("head")[0].appendChild(tag);
+                                    done();
                                 } 
                             },
                             render: function()
                             {
                                 rootNode.innerHTML = window.puzzle.getRawStatement(ctx.html);
+                                done();
                             },
                             js: function()
                             {
                                 var script = document.createElement('script');
                                 script.innerText = window.puzzle.getRawStatement(ctx.js);
-                                document.body.appendChild(script)
+                                document.body.appendChild(script);
+                                done();
                             },
                             css: function()
                             {
@@ -106,12 +114,11 @@ if (_nodejs) {
                                 console.log(ctx.css, window.puzzle.getRawStatement(ctx.css));
                                 style.innerText = window.puzzle.getRawStatement(ctx.css);
                                 document.body.appendChild(style)
+                                done();
                             }
                         }
                         instructor[ctx.method](ctx);
                         ctx = {};
-                        done();
-
                     }
                 },
                 load: {
