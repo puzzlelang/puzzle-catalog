@@ -34,6 +34,8 @@ if (_nodejs) {
                         var instructor = {
                             create: function(context) {
 
+                                if(context.tagName == "element") context.tagName = "div";
+                                
                                 var tag = document.createElement(context.tagName);
 
                                 setAttrs(tag);
