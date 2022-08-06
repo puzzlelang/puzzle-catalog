@@ -29,7 +29,7 @@ if (_nodejs) {
                             });
                         }
                         
-                        var rootNode = document.querySelector(syntax.$.ui._static.rootNode);
+                        var rootNode = document.querySelector(syntax.ui._static.rootNode);
 
                         var instructor = {
                             create: function(context) {
@@ -108,7 +108,7 @@ if (_nodejs) {
                     method: function(ctx, selector) {
                         syntax.context.method = 'root';
                         syntax.context.rootNode = window.puzzle.getRawStatement(selector);
-                        syntax.$.ui._static.rootNode = window.puzzle.getRawStatement(selector);
+                        syntax.ui._static.rootNode = window.puzzle.getRawStatement(selector);
                     }
                 },
                 define: {
@@ -256,17 +256,17 @@ if (_nodejs) {
                                 
                                 var keyCode;
 
-                                Object.keys(syntax.$.ui._static.keyMappings).forEach(_m => {
-                                    if(syntax.$.ui._static.keyMappings[_m] == data.type){
+                                Object.keys(syntax.ui._static.keyMappings).forEach(_m => {
+                                    if(syntax.ui._static.keyMappings[_m] == data.type){
                                         keyCode = _m;
                                     }
                                 })
 
-                                syntax.$.ui._static.registeredKeyEvents[keyCode] = window.puzzle.getRawStatement(data.code)
+                                syntax.ui._static.registeredKeyEvents[keyCode] = window.puzzle.getRawStatement(data.code)
 
                                 document.onkeydown = function(e) {
-                                    if(syntax.$.ui._static.registeredKeyEvents[e.keyCode]){
-                                        window.puzzle.parse(syntax.$.ui._static.registeredKeyEvents[e.keyCode])
+                                    if(syntax.ui._static.registeredKeyEvents[e.keyCode]){
+                                        window.puzzle.parse(syntax.ui._static.registeredKeyEvents[e.keyCode])
                                     }
                                 };
                             }
