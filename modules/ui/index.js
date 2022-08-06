@@ -6,7 +6,7 @@ if (_nodejs) {
     };
 }
 
-                var syntax = {
+var syntax = {
             ui: {
                 _static: {
                     keyMappings: {38: 'up', 37:'left', 39:'down', 40:'right', 13:'enter', 46:'delete', 32:'space'},
@@ -17,14 +17,17 @@ if (_nodejs) {
                     execStatement: (done, ctx) => {
 
                         function setAttrs(tag) {
-                            var handlers = ['onclick'];
                             Object.keys(ctx.attrs).forEach(k => {
-                                if (handlers.includes(k)) {
+                                if (k == 'onclick') {
                                     var code = ctx.attrs[k] + "";
                                     tag.onclick = function() {
                                         //eval(code)
                                         window.puzzle.parse(code)
                                     }
+                                } else if (k == 'text') {
+                                    tag.innerText = ctx.attrs[k]
+                                } else if (k == 'content') {
+                                    tag.innerHTML = ctx.attrs[k]
                                 } else tag[k] = ctx.attrs[k]
                             });
                         }
@@ -58,7 +61,9 @@ if (_nodejs) {
                                 done();
                             },
                             set: function(context) {
+                                console.log(context)
                                 var tag = document.getElementById(context.tagId);
+                                console.log('s', ctx, tag)
                                 setAttrs(tag);
                                 done();
                             },
@@ -167,11 +172,10 @@ if (_nodejs) {
                     }
                 },
                 get: {
-                    follow: ["{tagName}", "with"],
-                    method: function(ctx, tagName) {
+                    follow: ["{id}", "$and"],
+                    method: function(ctx, id) {
                         ctx.method = 'set';
-                        ctx.tagName = tagName;
-                        ctx.attrs = {};
+                        ctx.tagId = id;
                     }
                 },
                 inside: {
@@ -181,7 +185,7 @@ if (_nodejs) {
                     }
                 },
                 with: {
-                    follow: ["$id", "{key,value}"],
+                    follow: ["$style", "$click", "$text", "$class", "$id", "{key,value}"],
                     method: function(ctx, data) {
                         if(data) {
                             if(!ctx.dynamicAttrs) ctx.dynamicAttrs = {};
@@ -196,13 +200,14 @@ if (_nodejs) {
                     }
                 },
                 set: {
-                    follow: ["$style", "$click"],
-                    method: function(ctx, id) {
-
+                    follow: ["{key,value}", "$and"],
+                    method: function(ctx, data) {
+                        if(!ctx.attrs) ctx.attrs = {};
+                        ctx.attrs[data.key] = window.puzzle.getRawStatement(data.value);
                     }
                 },
                 and: {
-                    follow: ["$style", "$click", "$text", "$class", "{key,value}"],
+                    follow: ["$style", "$click", "$text", "$class", "$set", "$id", "{key,value}"],
                     method: function(ctx, data) {
                         if(data) {
                             if(!ctx.dynamicAttrs) ctx.dynamicAttrs = {};
