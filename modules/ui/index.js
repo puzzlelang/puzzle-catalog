@@ -61,10 +61,13 @@ var syntax = {
                                 done();
                             },
                             set: function(context) {
-                                console.log(context)
                                 var tag = document.getElementById(context.tagId);
-                                console.log('s', ctx, tag)
                                 setAttrs(tag);
+                                if(ctx.dynamicAttrs) {
+                                    Object.keys(ctx.dynamicAttrs).forEach(t => {
+                                        tag.style[t] = ctx.dynamicAttrs[t]
+                                    })
+                                }
                                 done();
                             },
                             root: function(context) {
@@ -176,6 +179,8 @@ var syntax = {
                     method: function(ctx, id) {
                         ctx.method = 'set';
                         ctx.tagId = id;
+                        ctx.attrs = {};
+                        ctx.return = document.getElementById(id);
                     }
                 },
                 inside: {
@@ -200,10 +205,12 @@ var syntax = {
                     }
                 },
                 set: {
-                    follow: ["{key,value}", "$and"],
+                    follow: ["$style", "$click", "$text", "$class", "$id", "{key,value}"],
                     method: function(ctx, data) {
-                        if(!ctx.attrs) ctx.attrs = {};
-                        ctx.attrs[data.key] = window.puzzle.getRawStatement(data.value);
+                        if(data) {
+                            if(!ctx.dynamicAttrs) ctx.dynamicAttrs = {};
+                            ctx.dynamicAttrs[data.key] = window.puzzle.getRawStatement(data.value);
+                        } 
                     }
                 },
                 and: {
