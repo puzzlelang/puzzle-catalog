@@ -9,7 +9,7 @@ if (_nodejs) {
 var syntax = {
             ui: {
                 _static: {
-                    keyMappings: {38: 'up', 37:'left', 39:'down', 40:'right', 13:'enter', 46:'delete', 32:'space'},
+                    keyMappings: {38: 'up', 37:'left', 40:'down', 39:'right', 13:'enter', 46:'delete', 32:'space'},
                     registeredKeyEvents: {
 
                     },
