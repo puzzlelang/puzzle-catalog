@@ -24,10 +24,6 @@ var syntax = {
                                         //eval(code)
                                         window.puzzle.parse(code)
                                     }
-                                } else if (k == 'text') {
-                                    tag.innerText = ctx.attrs[k]
-                                } else if (k == 'content') {
-                                    tag.innerHTML = ctx.attrs[k]
                                 } else tag[k] = ctx.attrs[k]
                             });
                         }
@@ -226,6 +222,12 @@ var syntax = {
                     follow: ["{text}", "$and"],
                     method: function(ctx, text) {
                         ctx.attrs['innerText'] = puzzle.getRawStatement(text);
+                    }
+                },
+                html: {
+                    follow: ["{html}", "$and"],
+                    method: function(ctx, html) {
+                        ctx.attrs['innerHTML'] = puzzle.getRawStatement(html);
                     }
                 },
                 style: {
