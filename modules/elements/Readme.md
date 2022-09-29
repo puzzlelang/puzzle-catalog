@@ -3,10 +3,7 @@
 A module for creating and interacting with visual elements. Build user interfaces, animations, simple games, etc.
 
 ```puzzle
-create square "main" 
-	with background white
-	and width 100px
-	and height 100px;
+use elements;
 ```
 
 ## Operations

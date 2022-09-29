@@ -4,16 +4,6 @@ Official puzzle module for building html sites using natural language.
 
 ```puzzle
 use ui;
-
-define class main {
-	background: blue;
-}
-
-render (
-	<div class="main">hello world</div>
-)
-
-on key space (alert "space key was pressed")
 ```
 
 ## Operations
