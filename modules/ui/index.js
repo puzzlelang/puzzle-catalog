@@ -103,9 +103,14 @@ var syntax = {
                                 } 
                             },
                             render: function()
-                            {   
-                                if(ctx.insideId) document.getElementById(ctx.insideId).innerHTML = window.puzzle.getRawStatement(ctx.html);
-                                else rootNode.innerHTML = window.puzzle.getRawStatement(ctx.html);
+                            {
+                                var element = document.createElement('div');
+                                element.innerHTML = window.puzzle.getRawStatement(ctx.html);
+                                
+                                if(context.insideId) {
+                                    var innerRoot = document.getElementById(context.insideId);
+                                    innerRoot.appendChild(element);
+                                } else rootNode.appendChild(element); 
                                 done();
                             },
                             js: function()
