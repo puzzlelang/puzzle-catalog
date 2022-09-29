@@ -3,34 +3,37 @@
 Official puzzle module for building html sites using natural language.
 
 ```puzzle
-<html>
-<head>
-	<script src="https://cdn.jsdelivr.net/npm/puzzlelang@latest/puzzle.browser.js"></script>
-</head>
-<body>
-	<script type="text/x-puzzle">
-		use ui;
+use ui;
 
-		css (
-			body {
-				background:black;
-				color:white;
-			}
-		)
+define class main {
+	background: blue;
+}
 
-		render (
-			<div>hello world</div>
-		)
+render (
+	<div class="main">hello world</div>
+)
 
-		js {
-			console.log('Hello World')
-		}
-	</script>
-</body>
-</html>
+on key space (alert "space key was pressed")
 ```
 
-The Language can be used by defining custom "native" html, js and css or by creating elements in natural language.ö
+## Operations
+
+```puzzle
+// Define css styles (as classes)
+define class main {
+	background: blue;
+}
+
+// Render HTML
+render (
+	<a href="">link</a>
+)
+
+// Add JavaScript
+js (
+	alert('hello, world')
+)
+```
 
 ## User interactions
 
