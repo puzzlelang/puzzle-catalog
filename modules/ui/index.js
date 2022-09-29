@@ -102,7 +102,7 @@ var syntax = {
                                     done();
                                 } 
                             },
-                            render: function()
+                            render: function(context)
                             {
                                 var element = document.createElement('div');
                                 element.innerHTML = window.puzzle.getRawStatement(ctx.html);
@@ -113,14 +113,14 @@ var syntax = {
                                 } else rootNode.appendChild(element); 
                                 done();
                             },
-                            js: function()
+                            js: function(context)
                             {
                                 var script = document.createElement('script');
                                 script.innerText = window.puzzle.getRawStatement(ctx.js);
                                 document.body.appendChild(script);
                                 done();
                             },
-                            css: function()
+                            css: function(context)
                             {
                                 var style = document.createElement('style');
                                 console.log(ctx.css, window.puzzle.getRawStatement(ctx.css));
