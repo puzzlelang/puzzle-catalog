@@ -27,7 +27,7 @@ var syntax = {
                                 } else tag[k] = ctx.attrs[k]
                             });
                         }
-                        
+   
                         var rootNode = document.querySelector(syntax.ui._static.rootNode);
 
                         var instructor = {
@@ -103,8 +103,9 @@ var syntax = {
                                 } 
                             },
                             render: function()
-                            {
-                                rootNode.innerHTML = window.puzzle.getRawStatement(ctx.html);
+                            {   
+                                if(ctx.insideId) document.getElementById(ctx.insideId).innerHTML = window.puzzle.getRawStatement(ctx.html);
+                                else rootNode.innerHTML = window.puzzle.getRawStatement(ctx.html);
                                 done();
                             },
                             js: function()
@@ -123,6 +124,7 @@ var syntax = {
                                 done();
                             }
                         }
+                        console.log(ctx.method)
                         instructor[ctx.method](ctx);
                         ctx = {};
                     }
@@ -194,6 +196,22 @@ var syntax = {
                         } 
                     }
                 },
+                move: {
+                    follow: ["{direction,unit}"],
+                    method: function(ctx, data) {
+                        if(ctx.tagId){
+                            var currentLeft = document.getElementById(ctx.tagId).style.left.replace('px','');
+                            var currentRight = document.getElementById(ctx.tagId).style.right.replace('px','');
+                            var currentTop = document.getElementById(ctx.tagId).style.top.replace('px','');
+                            var currentBottom = document.getElementById(ctx.tagId).style.bottom.replace('px','');
+
+                            if(data.direction == 'right') 
+                                document.getElementById(ctx.tagId).style.left = parseInt(currentLeft) + parseInt(data.unit.replace('px','')) + 'px';
+                            if(data.direction == 'left') 
+                                document.getElementById(ctx.tagId).style.left = parseInt(currentLeft) - parseInt(data.unit.replace('px','')) + 'px';
+                        }
+                    }
+                },
                 id: {
                     follow: ["{id}", "$and", "$set"],
                     method: function(ctx, id) {
@@ -210,7 +228,7 @@ var syntax = {
                     }
                 },
                 and: {
-                    follow: ["$style", "$click", "$text", "$class", "$set", "$id", "{key,value}"],
+                    follow: ["$style", "$click", "$text", "$class", "$set", "$id", "$move", "{key,value}"],
                     method: function(ctx, data) {
                         if(data) {
                             if(!ctx.dynamicAttrs) ctx.dynamicAttrs = {};
