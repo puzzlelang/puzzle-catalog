@@ -1,48 +1,20 @@
-# UI
+# ELEMENTS
 
-Official puzzle module for building html sites using natural language.
+A module for creating and interacting with visual elements. Build user interfaces, animations, simple games, etc.
 
 ```puzzle
-use ui;
+use elements;
 ```
 
 ## Operations
 
 ```puzzle
-// Define css styles (as classes)
-define class main {
-	background: blue;
-}
+// Generic operations
+set background blue;
 
-// Render HTML
-render (
-	<a href="">link</a>
-)
-
-// Add JavaScript
-js (
-	alert('hello, world')
-)
+//Create an element
+create square "main" 
+	with background white
+	and width 100px
+	and height 100px;
 ```
-
-## User interactions
-
-```puzzle
-// Key interaction
-on key space (print "space key was pressed")
-
-// Notification
-alert Hello
-
-// User input box
-prompt "whats your name?"
-
-// Confirmation box
-confirm "are you sure"
-
-// Store a user input as variable
-prompt "whats your name" as name
-
-// Output it
-alert name
-``` 
