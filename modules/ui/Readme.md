@@ -1,9 +1,9 @@
-# ELEMENTS
+# UI
 
 A module for creating and interacting with visual elements. Build user interfaces, animations, simple games, etc.
 
 ```puzzle
-use elements;
+use ui;
 ```
 
 ## Operations
