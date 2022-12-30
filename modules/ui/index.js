@@ -6,7 +6,7 @@ if (_nodejs) {
     };
 }
 
-var syntax = {
+        var syntax = {
             ui: {
                 _static: {
                     keyMappings: {38: 'up', 37:'left', 40:'down', 39:'right', 13:'enter', 46:'delete', 32:'space'},
@@ -123,28 +123,15 @@ var syntax = {
                             css: function(context)
                             {
                                 var style = document.createElement('style');
-                                console.log(ctx.css, window.puzzle.getRawStatement(ctx.css));
                                 style.innerText = window.puzzle.getRawStatement(ctx.css);
                                 document.body.appendChild(style)
                                 done();
                             }
                         }
-                        console.log(ctx.method)
+                        if(!ctx.method) return done();
                         instructor[ctx.method](ctx);
                         ctx = {};
                     }
-                },
-                set: {
-                  follow: ["$background"],
-                  method: function (ctx, param) {},
-                  innerSequence: {
-                    background: {
-                      follow: ["{value}"],
-                      method: function (ctx, param) {
-                        document.body.style.background = param;
-                      }
-                    }
-                  }
                 },
                 load: {
                     follow: ["{library}"],
@@ -236,13 +223,21 @@ var syntax = {
                     }
                 },
                 set: {
-                    follow: ["$style", "$click", "$text", "$class", "$id", "{key,value}"],
+                    follow: ["$style", "$click", "$text", "$class", "$id", "$background", "{key,value}"],
                     method: function(ctx, data) {
                         if(data) {
                             if(!ctx.dynamicAttrs) ctx.dynamicAttrs = {};
                             ctx.dynamicAttrs[data.key] = window.puzzle.getRawStatement(data.value);
                         } 
-                    }
+                    },
+                    innerSequence: {
+                        background: {
+                          follow: ["{value}"],
+                          method: function (ctx, param) {
+                            document.body.style.background = param;
+                          }
+                        }
+                      }
                 },
                 and: {
                     follow: ["$style", "$click", "$text", "$class", "$set", "$id", "$move", "{key,value}"],
