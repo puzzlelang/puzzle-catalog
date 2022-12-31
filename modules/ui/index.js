@@ -117,7 +117,7 @@ if (_nodejs) {
                             {
                                 var script = document.createElement('script');
                                 script.innerText = window.puzzle.getRawStatement(ctx.js);
-                                document.body.appendChild(script);
+                                document.head.appendChild(script);
                                 done();
                             },
                             css: function(context)
