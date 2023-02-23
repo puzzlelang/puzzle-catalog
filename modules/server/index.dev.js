@@ -4,7 +4,7 @@ const app = new Koa();
 
 var syntax = {
 
-        api: {
+        server: {
             _static: {
                  execStatement: (done, ctx) => {
 

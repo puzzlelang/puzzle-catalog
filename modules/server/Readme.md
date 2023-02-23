@@ -1,13 +1,13 @@
-# API
+# Server
 
 ```puzzle
-use api;
+use server;
 ```
 
-Build your own API with custom server routes.
+Build your own Server with custom server routes.
 
 ```puzzle
-use api;
+use server;
 
 // Start server on specified port
 start 3000;
@@ -18,9 +18,9 @@ on get /test run (
 ) and return "done!"
 ```
 
-## Start API
+## Start Server
 
-Start the API server on a specified port
+Start the server on a specified port
 
 ```puzzle
 start 80;

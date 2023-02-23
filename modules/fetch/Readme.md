@@ -1,9 +1,9 @@
-# REST
+# Fetch
 
-The REST modules allows you to make calls and requests to apis, websites and everythinig accessible on the internet.
+The Fetch modules allows you to make calls and requests to apis, websites and everythinig accessible on the internet.
 
 ```puzzle
-use rest
+use fetch
 ```
 
 ## Methods

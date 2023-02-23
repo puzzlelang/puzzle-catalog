@@ -20,6 +20,11 @@ use permanent https://...
 | [web](https://github.com/puzzlelang/puzzle-catalog/tree/master/modules/web) | A module for building web interfaces with html+js+css using concepts of natual language | [CDN](https://cdn.jsdelivr.net/gh/puzzlelang/puzzle-catalog/modules/web/index.js) |
 
 
+* [UI](https://github.com/puzzlelang/puzzle-catalog/tree/master/modules/ui/Readme.md) for building user interfaces
+* [Fetch](https://github.com/puzzlelang/puzzle-catalog/tree/master/modules/fetch/Readme.md) for interacting with web ressources
+* [Server](https://github.com/puzzlelang/puzzle-catalog/tree/master/modules/server/Readme.md) for building server-side stuff
+
+
 # Add your module
 
 You are welcome to contribute modules to the ecosystem with a PR.

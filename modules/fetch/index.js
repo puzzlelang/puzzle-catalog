@@ -23,7 +23,7 @@ function call(method, url, data, callback) {
 }
 
 var syntax = {
-        rest: {
+        fetch: {
             _static: {
                 execStatement: function(done, ctx) {
                     if(!ctx.url) return;
