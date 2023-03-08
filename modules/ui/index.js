@@ -217,19 +217,18 @@ if (_nodejs) {
                 set: {
                     follow: ["$style", "$click", "$text", "$class", "$id", "$background", "{key,value}"],
                     method: function(ctx, data) {
+
                         if(data) {
                             if(!ctx.dynamicAttrs) ctx.dynamicAttrs = {};
                             ctx.dynamicAttrs[data.key] = window.puzzle.getRawStatement(data.value);
                         } 
-                    },
-                    innerSequence: {
-                        background: {
-                          follow: ["{value}"],
-                          method: function (ctx, param) {
-                            document.body.style.background = param;
-                          }
-                        }
-                      }
+                    }
+                },
+                background: {
+                  follow: ["{value}"],
+                  method: function (ctx, param) {
+                    document.body.style.background = param;
+                  }
                 },
                 and: {
                     follow: ["$style", "$click", "$text", "$class", "$set", "$id", "$move", "{key,value}"],
@@ -243,6 +242,7 @@ if (_nodejs) {
                 text: {
                     follow: ["{text}", "$and"],
                     method: function(ctx, text) {
+                        console.log('text', puzzle.getRawStatement(text))
                         ctx.attrs['innerText'] = puzzle.getRawStatement(text);
                     }
                 },
