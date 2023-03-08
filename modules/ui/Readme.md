@@ -6,6 +6,27 @@ A module for creating and interacting with visual elements. Build user interface
 use ui;
 ```
 
+## Render elements
+
+```puzzle
+// Create an element
+render div with id main
+	and background white
+	and width 100px
+	and height 100px;
+
+// or as HTML
+
+render (
+	<div>hello</div>
+)
+
+// Render inside another element
+inside #main render (
+	<button>click</button>
+)
+```
+
 ## General Functions
 
 ```puzzle
@@ -17,31 +38,10 @@ define class main {
 	background: blue;
 }
 
-// Render HTML
-render (
-	<a href="">link</a>
-)
-
-// Render inside
-
-inside #app render (
-	<button>click</button>
-)
-
 // Add JavaScript
 js (
 	alert('hello, world')
 )
-```
-
-## Element Operations
-
-```puzzle
-// Create an element
-create div with id main
-	and background white
-	and width 100px
-	and height 100px;
 ```
 
 ## User interactions

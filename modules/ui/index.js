@@ -168,14 +168,6 @@ if (_nodejs) {
 
                     }
                 },
-                create: {
-                    follow: ["{tagName}", "$with"],
-                    method: function(ctx, tagName) {
-                        ctx.method = 'create';
-                        ctx.attrs = {};
-                        ctx.tagName = tagName;
-                    }
-                },
                 get: {
                     follow: ["{id}", "$and"],
                     method: function(ctx, id) {
@@ -279,11 +271,16 @@ if (_nodejs) {
                     }
                 },
                 render: {
-                    follow: ["{html}"],
-                    method: function(ctx, html) {
-                        ctx.method = 'render';
-                        ctx.html = html;
-
+                    follow: ["{tagName}", "$with"],
+                    method: function(ctx, tagName) {
+                        if(window.puzzle.groupingOperators.includes(tagName.charAt(0))){
+                            ctx.method = 'render';
+                            ctx.html = tagName;
+                            return;
+                        } 
+                        ctx.method = 'create';
+                        ctx.attrs = {};
+                        ctx.tagName = tagName;
                     }
                 },
                 css: {
