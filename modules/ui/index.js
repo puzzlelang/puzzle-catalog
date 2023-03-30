@@ -242,7 +242,6 @@ if (_nodejs) {
                 text: {
                     follow: ["{text}", "$and"],
                     method: function(ctx, text) {
-                        console.log('text', puzzle.getRawStatement(text))
                         ctx.attrs['innerText'] = puzzle.getRawStatement(text);
                     }
                 },
@@ -300,7 +299,7 @@ if (_nodejs) {
                 alert: {
                     follow: ["{message}"],
                     method: function(ctx, message) {
-                        alert(message)
+                        alert(window.puzzle.evaluateRawStatement(message))
                     }
                 },
                 confirm: {
@@ -317,8 +316,11 @@ if (_nodejs) {
                 },
                 on: {
                     follow: ["$key"],
-                    innerSequence: {
-                        key: {
+                    method: function(ctx, message) {
+                        
+                    }
+                },
+                key: {
                             follow: ["{type,code}"],
                             method: function(ctx, data) {
                                 
@@ -339,11 +341,6 @@ if (_nodejs) {
                                 };
                             }
                         }
-                    },
-                    method: function(ctx, message) {
-                        
-                    }
-                }
             }
     }
 
