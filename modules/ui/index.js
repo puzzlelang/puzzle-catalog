@@ -163,9 +163,7 @@ if (_nodejs) {
                             tag.innerHTML += '}';
 
                             document.getElementsByTagName('head')[0].appendChild(tag);
-
                         }
-
                     }
                 },
                 get: {
@@ -193,21 +191,44 @@ if (_nodejs) {
                     }
                 },
                 move: {
-                    follow: ["{direction,unit}"],
+                    follow: ["{$right}", "{$left}", "{$up}", "{$down}"],
                     method: function(ctx, data) {
+                        
+                    }
+                },
+                right: {
+                    follow: ["{unit}"],
+                    method: function(ctx, unit) {
                         if(ctx.tagId){
-                            var currentLeft = document.getElementById(ctx.tagId).style.left.replace('px','');
-                            var currentRight = document.getElementById(ctx.tagId).style.right.replace('px','');
-                            var currentTop = document.getElementById(ctx.tagId).style.top.replace('px','');
-                            var currentBottom = document.getElementById(ctx.tagId).style.bottom.replace('px','');
-
-                            if(data.direction == 'right') 
-                                document.getElementById(ctx.tagId).style.left = parseInt(currentLeft) + parseInt(data.unit.replace('px','')) + 'px';
-                            if(data.direction == 'left') 
-                                document.getElementById(ctx.tagId).style.left = parseInt(currentLeft) - parseInt(data.unit.replace('px','')) + 'px';
+                            document.getElementById(ctx.tagId).style.left = parseInt(document.getElementById(ctx.tagId).style.left.replace('px','')) + parseInt(unit.replace('px','')) + 'px';
                         }
                     }
                 },
+                left: {
+                    follow: ["{unit}"],
+                    method: function(ctx, unit) {
+                        if(ctx.tagId){
+                            document.getElementById(ctx.tagId).style.left = parseInt(document.getElementById(ctx.tagId).style.left.replace('px','')) - parseInt(unit.replace('px','')) + 'px';
+                        }
+                    }
+                },
+                up: {
+                    follow: ["{unit}"],
+                    method: function(ctx, unit) {
+                        if(ctx.tagId){
+                            document.getElementById(ctx.tagId).style.top = parseInt(document.getElementById(ctx.tagId).style.top.replace('px','')) - parseInt(unit.replace('px','')) + 'px';
+                        }
+                    }
+                },
+                down: {
+                    follow: ["{unit}"],
+                    method: function(ctx, unit) {
+                        if(ctx.tagId){
+                            document.getElementById(ctx.tagId).style.top = parseInt(document.getElementById(ctx.tagId).style.top.replace('px','')) + parseInt(unit.replace('px','')) + 'px';
+                        }
+                    }
+                },
+
                 id: {
                     follow: ["{id}", "$and", "$set"],
                     method: function(ctx, id) {
@@ -231,7 +252,7 @@ if (_nodejs) {
                   }
                 },
                 and: {
-                    follow: ["$style", "$click", "$text", "$class", "$set", "$id", "$move", "{key,value}"],
+                    follow: ["$style", "$click", "$text", "$class", "$set", "$id", "$move", "$src", "{key,value}"],
                     method: function(ctx, data) {
                         if(data) {
                             if(!ctx.dynamicAttrs) ctx.dynamicAttrs = {};
@@ -239,6 +260,8 @@ if (_nodejs) {
                         } 
                     }
                 },
+
+                // ATTRIBUTES
                 text: {
                     follow: ["{text}", "$and"],
                     method: function(ctx, text) {
@@ -269,6 +292,14 @@ if (_nodejs) {
                         ctx.attrs['onclick'] = puzzle.getRawStatement(click);
                     }
                 },
+                src: {
+                    follow: ["{src}", "$and"],
+                    method: function(ctx, src) {
+                        ctx.attrs['src'] = puzzle.getRawStatement(src);
+                    }
+                },
+
+
                 render: {
                     follow: ["{tagName}", "$with"],
                     method: function(ctx, tagName) {
@@ -279,9 +310,15 @@ if (_nodejs) {
                         } 
                         ctx.method = 'create';
                         ctx.attrs = {};
-                        ctx.tagName = tagName;
+                        var reservedTags = {
+                            box: 'div',
+                            image: 'img'
+                        };
+                        ctx.tagName = reservedTags[tagName] || tagName;
+                        if(!ctx.dynamicAttrs) ctx.dynamicAttrs = {};
                     }
                 },
+
                 css: {
                     follow: ["{css}"],
                     method: function(ctx, css) {
@@ -340,7 +377,21 @@ if (_nodejs) {
                                     }
                                 };
                             }
-                        }
+                },
+
+                // ELEMENTS
+                at: {
+                  follow: ["{l,t}", "$and", "$with"],
+                  method: function (ctx, param) {
+                    console.log('sdf',ctx)
+                    ctx.dynamicAttrs.left = param.l + "px";
+                    ctx.dynamicAttrs.top = param.t + "px";
+
+                    ctx.dynamicAttrs.position = "absolute";
+
+
+                  }
+                },
             }
     }
 
