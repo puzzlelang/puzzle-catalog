@@ -185,7 +185,7 @@ if (_nodejs) {
                     follow: ["$style", "$click", "$text", "$class", "$id", "{key,value}"],
                     method: function(ctx, data) {
                         if(data) {
-                            
+
                             if(!ctx.dynamicAttrs) ctx.dynamicAttrs = {};
                             ctx.dynamicAttrs[data.key] = window.puzzle.getRawStatement(data.value);
                         } 
@@ -234,6 +234,14 @@ if (_nodejs) {
                     follow: ["{id}", "$and", "$set"],
                     method: function(ctx, id) {
                         ctx.tagId = id;
+                    }
+                },
+                delete: {
+                    follow: ["{id}"],
+                    method: function(ctx, id) {
+                        var el = document.getElementById(id);
+                        var parent = el.parentNode;
+                        parent.removeChild(el);
                     }
                 },
                 set: {
@@ -384,13 +392,9 @@ if (_nodejs) {
                 at: {
                   follow: ["{l,t}", "$and", "$with"],
                   method: function (ctx, param) {
-                    console.log('sdf',ctx)
                     ctx.dynamicAttrs.left = param.l + "px";
                     ctx.dynamicAttrs.top = param.t + "px";
-
                     ctx.dynamicAttrs.position = "absolute";
-
-
                   }
                 },
             }
