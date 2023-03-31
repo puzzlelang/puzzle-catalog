@@ -185,6 +185,7 @@ if (_nodejs) {
                     follow: ["$style", "$click", "$text", "$class", "$id", "{key,value}"],
                     method: function(ctx, data) {
                         if(data) {
+                            
                             if(!ctx.dynamicAttrs) ctx.dynamicAttrs = {};
                             ctx.dynamicAttrs[data.key] = window.puzzle.getRawStatement(data.value);
                         } 
@@ -358,25 +359,25 @@ if (_nodejs) {
                     }
                 },
                 key: {
-                            follow: ["{type,code}"],
-                            method: function(ctx, data) {
-                                
-                                var keyCode;
+                   follow: ["{type,code}"],
+                   method: function(ctx, data) {
+                       
+                       var keyCode;
 
-                                Object.keys(syntax.ui._static.keyMappings).forEach(_m => {
-                                    if(syntax.ui._static.keyMappings[_m] == data.type){
-                                        keyCode = _m;
-                                    }
-                                })
+                       Object.keys(syntax.ui._static.keyMappings).forEach(_m => {
+                           if(syntax.ui._static.keyMappings[_m] == data.type){
+                               keyCode = _m;
+                           }
+                       })
 
-                                syntax.ui._static.registeredKeyEvents[keyCode] = window.puzzle.getRawStatement(data.code)
+                       syntax.ui._static.registeredKeyEvents[keyCode] = window.puzzle.getRawStatement(data.code)
 
-                                document.onkeydown = function(e) {
-                                    if(syntax.ui._static.registeredKeyEvents[e.keyCode]){
-                                        window.puzzle.parse(syntax.ui._static.registeredKeyEvents[e.keyCode])
-                                    }
-                                };
-                            }
+                       document.onkeydown = function(e) {
+                           if(syntax.ui._static.registeredKeyEvents[e.keyCode]){
+                               window.puzzle.parse(syntax.ui._static.registeredKeyEvents[e.keyCode])
+                           }
+                       };
+                   }
                 },
 
                 // ELEMENTS
