@@ -6,9 +6,48 @@ if (_nodejs) {
     };
 }
 
+
+function setAttrs(tag, ctx) {
+                           var vars = ctx.vars;
+                            Object.keys(ctx.attrs).forEach(k => {
+                                if (k == 'onclick') {
+                                    var code = ctx.attrs[k] + "";
+                                    tag.onclick = function() {
+                                        window.puzzle.parse(code, vars)
+                                    }
+                                } else if (k == 'ondragstart') {
+                                    var code = ctx.attrs[k] + "";
+
+                                    tag.ondragstart = function() {
+                                        window.puzzle.parse(code, vars)
+                                    }
+                                } else if (k == 'ondrop') {
+                                    var code = ctx.attrs[k] + "";
+                                    tag.ondragenter="return false;";
+                                    tag.ondragover="return false;";
+                                    
+                                    tag.addEventListener("dragover", (event) => {
+                                          // prevent default to allow drop
+                                          event.preventDefault();
+                                        });
+
+                                    tag.ondrop = function(event) {
+                                        event.preventDefault();
+                                        window.puzzle.parse(code, vars)
+
+                                    };
+
+                                } else tag[k] = ctx.attrs[k]
+                            });
+                        }
+
         var syntax = {
             ui: {
                 _static: {
+                    routerFunction: () => {
+                        console.log('route changed')
+                    },
+                    elementData: {},
                     keyMappings: {38: 'up', 37:'left', 40:'down', 39:'right', 13:'enter', 46:'delete', 32:'space'},
                     registeredKeyEvents: {
 
@@ -17,18 +56,41 @@ if (_nodejs) {
                     execStatement: (done, ctx) => {
 
                         function setAttrs(tag) {
+                            var vars = ctx.vars;
                             Object.keys(ctx.attrs).forEach(k => {
                                 if (k == 'onclick') {
                                     var code = ctx.attrs[k] + "";
                                     tag.onclick = function() {
-                                        //eval(code)
-                                        window.puzzle.parse(code)
+                                        window.puzzle.parse(code, vars)
                                     }
+                                } else if (k == 'ondragstart') {
+                                    var code = ctx.attrs[k] + "";
+
+                                    tag.ondragstart = function() {
+                                        window.puzzle.parse(code, vars)
+                                    }
+                                } else if (k == 'ondrop') {
+                                    var code = ctx.attrs[k] + "";
+                                    tag.ondragenter="return false;";
+                                    tag.ondragover="return false;";
+                                    
+                                    tag.addEventListener("dragover", (event) => {
+                                          // prevent default to allow drop
+                                          event.preventDefault();
+                                        });
+
+                                    tag.ondrop = function(event) {
+                                        event.preventDefault();
+                                        window.puzzle.parse(code, vars)
+
+                                    };
+
                                 } else tag[k] = ctx.attrs[k]
                             });
                         }
    
                         var rootNode = document.querySelector(syntax.ui._static.rootNode);
+
 
                         var instructor = {
                             create: function(context) {
@@ -45,7 +107,7 @@ if (_nodejs) {
                                 if (!context.insideId) {
                                     rootNode.appendChild(tag); 
                                 } else {
-                                    var innerRoot = document.querySelector(context.insideId);
+                                    var innerRoot = document.getElementById(context.insideId);
                                     innerRoot.appendChild(tag);
                                 }
 
@@ -64,6 +126,7 @@ if (_nodejs) {
                                         tag.style[t] = ctx.dynamicAttrs[t]
                                     })
                                 }
+
                                 done();
                             },
                             root: function(context) {
@@ -108,7 +171,7 @@ if (_nodejs) {
                                 element.innerHTML = window.puzzle.getRawStatement(ctx.html);
                                 
                                 if(context.insideId) {
-                                    var innerRoot = document.querySelector(context.insideId);
+                                    var innerRoot = document.getElementById(context.insideId);
                                     innerRoot.appendChild(element);
                                 } else rootNode.appendChild(element); 
                                 done();
@@ -128,6 +191,7 @@ if (_nodejs) {
                                 done();
                             }
                         }
+
                         if(!ctx.method) return done();
                         instructor[ctx.method](ctx);
                         ctx = {};
@@ -166,19 +230,65 @@ if (_nodejs) {
                         }
                     }
                 },
+                router: {
+                    follow: ["{cmd}"],
+                    method: function(ctx, cmd) {
+                        switch(cmd){
+                            case 'start':
+                            window.addEventListener('load', syntax.ui._static.routerFunction());
+                            window.addEventListener('hashchange', syntax.ui._static.routerFunction());
+                            break;
+                        }
+                    }
+                },
+                scroll: {
+                    follow: ["$to"],
+                    method: function(ctx, id) {
+                       
+                    }
+                },
+                to: {
+                    follow: ["{pos}"],
+                    method: function(ctx, pos) {
+                        if(ctx._sequence.includes('scroll')){
+                            window.scrollTo(pos.split(',')[0], pos.split(',')[1]);
+                        }
+                    }
+                },
                 get: {
                     follow: ["{id}", "$and"],
                     method: function(ctx, id) {
+                        if(ctx._sequence.includes('at')){
+                            var elem = document.elementFromPoint(ctx.x, ctx.y);
+                            return;
+                        }
                         ctx.method = 'set';
-                        ctx.tagId = id;
+                        ctx.tagId = window.puzzle.getRawStatement(id, ctx);
                         ctx.attrs = {};
-                        ctx.return = document.getElementById(id);
                     }
                 },
+
+                read: {
+                    follow: ["$prop", "{key}"],
+                    method: function(ctx, key) { 
+                        var elem = ctx.tagId;
+                        var key = window.puzzle.getRawStatement(key, ctx);
+                        ctx.return = (syntax.ui._static.elementData[elem] || {})[key];
+
+                       
+                        /*if(ctx.return === undefined) {
+                            ctx.return = document.getElementById(elem).style[key];
+                        }*/
+
+                   
+                    }
+                },
+                
                 inside: {
                     follow: ["{id}", "$and"],
                     method: function(ctx, id) {
-                        ctx.insideId = id;
+                        ctx.insideId = window.puzzle.getRawStatement(id, ctx);
+                        ctx.tagId = window.puzzle.getRawStatement(id, ctx);
                     }
                 },
                 with: {
@@ -187,7 +297,7 @@ if (_nodejs) {
                         if(data) {
 
                             if(!ctx.dynamicAttrs) ctx.dynamicAttrs = {};
-                            ctx.dynamicAttrs[data.key] = window.puzzle.getRawStatement(data.value);
+                            ctx.dynamicAttrs[data.key] = window.puzzle.getRawStatement(data.value, ctx);
                         } 
                     }
                 },
@@ -233,48 +343,77 @@ if (_nodejs) {
                 id: {
                     follow: ["{id}", "$and", "$set"],
                     method: function(ctx, id) {
-                        ctx.tagId = id;
+                        ctx.tagId = window.puzzle.getRawStatement(id, ctx);
                     }
                 },
                 delete: {
                     follow: ["{id}"],
                     method: function(ctx, id) {
-                        var el = document.getElementById(id);
+                        var el = document.getElementById(window.puzzle.getRawStatement(id, ctx));
+                        console.log('parent', el, id)
                         var parent = el.parentNode;
                         parent.removeChild(el);
+                        console.log('deleting', el)
                     }
                 },
                 set: {
-                    follow: ["$style", "$click", "$text", "$class", "$id", "$background", "{key,value}"],
+                    follow: ["$style", "$click", "$text", "$draggable", "$class", "$id", "$prop", "{key,value}"],
                     method: function(ctx, data) {
 
                         if(data) {
                             if(!ctx.dynamicAttrs) ctx.dynamicAttrs = {};
-                            ctx.dynamicAttrs[data.key] = window.puzzle.getRawStatement(data.value);
+                            ctx.dynamicAttrs[data.key] = window.puzzle.getRawStatement(data.value, ctx);
                         } 
+
+                         var tag = document.getElementById(ctx.tagId);
+                            setAttrs(tag, ctx);
+                            if(ctx.dynamicAttrs) {
+                                Object.keys(ctx.dynamicAttrs).forEach(t => {
+                                    tag.style[t] = ctx.dynamicAttrs[t]
+                                })
+                            }
                     }
                 },
-                background: {
-                  follow: ["{value}"],
-                  method: function (ctx, param) {
-                    document.body.style.background = param;
-                  }
-                },
+              
                 and: {
-                    follow: ["$style", "$click", "$text", "$class", "$set", "$id", "$move", "$src", "{key,value}"],
+                    follow: ["$style", "$click", "$text", "$class", "$set", "$id", "$move", "$src", "$draggable", "$drag", "$drop", "$prop", "$read", "{key,value}"],
                     method: function(ctx, data) {
                         if(data) {
                             if(!ctx.dynamicAttrs) ctx.dynamicAttrs = {};
-                            ctx.dynamicAttrs[data.key] = window.puzzle.getRawStatement(data.value);
+                            ctx.dynamicAttrs[data.key] = window.puzzle.getRawStatement(data.value, ctx);
                         } 
                     }
                 },
+
+                prop: {
+                    follow: ["{key,value}", "$and"],
+                    method: function(ctx, data) {
+                        if(ctx._sequence.includes('read')){
+                            //ctx.return  = (syntax.ui._static.elementData[ctx.tagId] || {})[key];
+                        } else {
+
+                            var key = puzzle.getRawStatement(data.key, ctx);
+                            var value = puzzle.getRawStatement(data.value, ctx);
+                            if(!syntax.ui._static.elementData[ctx.tagId]) syntax.ui._static.elementData[ctx.tagId] = {};
+                            syntax.ui._static.elementData[ctx.tagId][key] = value;
+                        }
+                    }
+                },
+
 
                 // ATTRIBUTES
                 text: {
                     follow: ["{text}", "$and"],
                     method: function(ctx, text) {
-                        ctx.attrs['innerText'] = puzzle.getRawStatement(text);
+                        ctx.attrs['innerText'] = puzzle.getRawStatement(text, ctx);
+                         var tag = document.getElementById(ctx.tagId);
+                            if(tag) setAttrs(tag, ctx);
+                    }
+                },
+                draggable: {
+                    follow: ["{bool}", "$and"],
+                    method: function(ctx, bool) {
+                        ctx.attrs['draggable'] = puzzle.getRawStatement(bool);
                     }
                 },
                 html: {
@@ -299,6 +438,18 @@ if (_nodejs) {
                     follow: ["{click}", "$and"],
                     method: function(ctx, click) {
                         ctx.attrs['onclick'] = puzzle.getRawStatement(click);
+                    }
+                },
+                drag: {
+                    follow: ["{drag}", "$and"],
+                    method: function(ctx, drag) {
+                        ctx.attrs['ondragstart'] = puzzle.getRawStatement(drag);
+                    }
+                },
+                drop: {
+                    follow: ["{drop}", "$and"],
+                    method: function(ctx, drop) {
+                        ctx.attrs['ondrop'] = puzzle.getRawStatement(drop);
                     }
                 },
                 src: {
@@ -361,9 +512,20 @@ if (_nodejs) {
                     }
                 },
                 on: {
-                    follow: ["$key"],
+                    follow: ["$key", "$page"],
                     method: function(ctx, message) {
                         
+                    }
+                },
+                page: {
+                    follow: ["{name}"],
+                    method: function(ctx, message) {
+                        
+                    }
+                },
+                do: {
+                    follow: ["{code}"],
+                    method: function(ctx, message) {
                     }
                 },
                 key: {
@@ -390,8 +552,10 @@ if (_nodejs) {
 
                 // ELEMENTS
                 at: {
-                  follow: ["{l,t}", "$and", "$with"],
+                  follow: ["{l,t}", "$get", "$and", "$with"],
                   method: function (ctx, param) {
+                    ctx.x = param.l;
+                    ctx.y = param.t;
                     ctx.dynamicAttrs.left = param.l + "px";
                     ctx.dynamicAttrs.top = param.t + "px";
                     ctx.dynamicAttrs.position = "absolute";
