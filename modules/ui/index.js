@@ -105,6 +105,7 @@ function setAttrs(tag, ctx) {
                                 setAttrs(tag);
 
                                 if (ctx.tagId) tag.id = ctx.tagId;
+                                else ctx.tagId = Math.random();
 
                                 // append
                                 if (!context.insideId) {
