@@ -10,22 +10,24 @@ if (_nodejs) {
 function setAttrs(tag, ctx) {
                            var vars = ctx.vars;
                             Object.keys(ctx.attrs).forEach(k => {
+     
                                 if (k == 'onclick') {
-                                    var code = ctx.attrs[k] + "";
+                                    var code = window.puzzle.getRawStatement(ctx.attrs[k] + "");
+                                    tag.onclick = null;
                                     tag.onclick = function() {
                                         window.puzzle.parse(code, vars)
                                     }
                                 } else if (k == 'ondragstart') {
-                                    var code = ctx.attrs[k] + "";
-
+                                    var code = window.puzzle.getRawStatement(ctx.attrs[k] + "");
+                                    tag.ondragstart = null;
                                     tag.ondragstart = function() {
                                         window.puzzle.parse(code, vars)
                                     }
                                 } else if (k == 'ondrop') {
-                                    var code = ctx.attrs[k] + "";
+                                    var code = window.puzzle.getRawStatement(ctx.attrs[k] + "");
                                     tag.ondragenter="return false;";
                                     tag.ondragover="return false;";
-                                    
+                                    tag.dragover = null;
                                     tag.addEventListener("dragover", (event) => {
                                           // prevent default to allow drop
                                           event.preventDefault();
@@ -61,6 +63,7 @@ function setAttrs(tag, ctx) {
                                 if (k == 'onclick') {
                                     var code = ctx.attrs[k] + "";
                                     tag.onclick = function() {
+
                                         window.puzzle.parse(code, vars)
                                     }
                                 } else if (k == 'ondragstart') {
@@ -195,6 +198,8 @@ function setAttrs(tag, ctx) {
                         if(!ctx.method) return done();
                         instructor[ctx.method](ctx);
                         ctx = {};
+
+
                     }
                 },
                 load: {
@@ -256,25 +261,55 @@ function setAttrs(tag, ctx) {
                     }
                 },
                 get: {
-                    follow: ["{id}", "$and"],
-                    method: function(ctx, id) {
-                        if(ctx._sequence.includes('at')){
-                            var elem = document.elementFromPoint(ctx.x, ctx.y);
-                            return;
-                        }
-                        ctx.method = 'set';
+                    follow: ["{id}", "$at", "$and"],
+                    method: function(ctx, id) {                        
+                        ctx.method = 'get';
                         ctx.tagId = window.puzzle.getRawStatement(id, ctx);
                         ctx.attrs = {};
+                    }
+                },
+
+                mouse: {
+                    follow: ["{coord}"],
+                    method: function(ctx, coord) {
+                        if(coord == 'x'){
+                           ctx.return = ""; 
+                        }
                     }
                 },
 
                 read: {
                     follow: ["$prop", "{key}"],
                     method: function(ctx, key) { 
-                        var elem = ctx.tagId;
+                        
+                        var elem = document.getElementById(window.puzzle.getRawStatement(ctx.tagId, ctx));
                         var key = window.puzzle.getRawStatement(key, ctx);
-                        ctx.return = (syntax.ui._static.elementData[elem] || {})[key];
 
+                        
+
+                        switch(key){
+                            case 'left':
+                                ctx.return = parseInt(elem.style.left.replace('px', ''));
+                            break;
+                            case 'right':
+                                ctx.return = parseInt(elem.style.right.replace('px', ''));
+                            break;
+                            case 'top':
+                                ctx.return = parseInt(elem.style.top.replace('px', ''));
+                            break;
+                            case 'bottom':
+                                ctx.return = parseInt(elem.style.bottom.replace('px', ''));
+                            break;
+                            case 'height':
+                                ctx.return = parseInt(elem.height);
+                            break;
+                            case 'width':
+                                ctx.return = parseInt(elem.width);
+                            break;
+                            default:
+                                ctx.return  = (syntax.ui._static.elementData[ctx.tagId] || {})[key];
+                            
+                        }  
                        
                         /*if(ctx.return === undefined) {
                             ctx.return = document.getElementById(elem).style[key];
@@ -302,44 +337,30 @@ function setAttrs(tag, ctx) {
                     }
                 },
                 move: {
-                    follow: ["{$right}", "{$left}", "{$up}", "{$down}"],
+                    follow: ["{direction,unit}"],
                     method: function(ctx, data) {
-                        
-                    }
-                },
-                right: {
-                    follow: ["{unit}"],
-                    method: function(ctx, unit) {
+                        var unit = data.unit;
+                        var direction = data.direction;
                         if(ctx.tagId){
-                            document.getElementById(ctx.tagId).style.left = parseInt(document.getElementById(ctx.tagId).style.left.replace('px','')) + parseInt(unit.replace('px','')) + 'px';
+                            switch(direction){
+                                case 'left':
+                                    document.getElementById(ctx.tagId).style.left = parseInt(document.getElementById(ctx.tagId).style.left.replace('px','')) - parseInt(unit.replace('px','')) + 'px';
+                                break;
+                                case 'right':
+                                    document.getElementById(ctx.tagId).style.left = parseInt(document.getElementById(ctx.tagId).style.left.replace('px','')) + parseInt(unit.replace('px','')) + 'px';
+                                break;
+                                case 'up':
+                                    document.getElementById(ctx.tagId).style.top = parseInt(document.getElementById(ctx.tagId).style.top.replace('px','')) - parseInt(unit.replace('px','')) + 'px';
+                                break;
+                                case 'down':
+                                    document.getElementById(ctx.tagId).style.top = parseInt(document.getElementById(ctx.tagId).style.top.replace('px','')) + parseInt(unit.replace('px','')) + 'px';
+                                break;
+                            }
+                            
                         }
                     }
                 },
-                left: {
-                    follow: ["{unit}"],
-                    method: function(ctx, unit) {
-                        if(ctx.tagId){
-                            document.getElementById(ctx.tagId).style.left = parseInt(document.getElementById(ctx.tagId).style.left.replace('px','')) - parseInt(unit.replace('px','')) + 'px';
-                        }
-                    }
-                },
-                up: {
-                    follow: ["{unit}"],
-                    method: function(ctx, unit) {
-                        if(ctx.tagId){
-                            document.getElementById(ctx.tagId).style.top = parseInt(document.getElementById(ctx.tagId).style.top.replace('px','')) - parseInt(unit.replace('px','')) + 'px';
-                        }
-                    }
-                },
-                down: {
-                    follow: ["{unit}"],
-                    method: function(ctx, unit) {
-                        if(ctx.tagId){
-                            document.getElementById(ctx.tagId).style.top = parseInt(document.getElementById(ctx.tagId).style.top.replace('px','')) + parseInt(unit.replace('px','')) + 'px';
-                        }
-                    }
-                },
-
+               
                 id: {
                     follow: ["{id}", "$and", "$set"],
                     method: function(ctx, id) {
@@ -349,17 +370,17 @@ function setAttrs(tag, ctx) {
                 delete: {
                     follow: ["{id}"],
                     method: function(ctx, id) {
-                        var el = document.getElementById(window.puzzle.getRawStatement(id, ctx));
-                        console.log('parent', el, id)
-                        var parent = el.parentNode;
-                        parent.removeChild(el);
-                        console.log('deleting', el)
+                        try {
+                            var el = document.getElementById(window.puzzle.getRawStatement(id, ctx));
+                            var parent = el.parentNode;
+                            parent.removeChild(el);
+                        } catch(e) {}
                     }
                 },
                 set: {
-                    follow: ["$style", "$click", "$text", "$draggable", "$class", "$id", "$prop", "{key,value}"],
+                    follow: ["$style", "$click", "$text", "$draggable", "$class", "$id", "$prop", "$drag", "$drop", "{key,value}"],
                     method: function(ctx, data) {
-
+                        ctx.method = 'set';
                         if(data) {
                             if(!ctx.dynamicAttrs) ctx.dynamicAttrs = {};
                             ctx.dynamicAttrs[data.key] = window.puzzle.getRawStatement(data.value, ctx);
@@ -388,12 +409,15 @@ function setAttrs(tag, ctx) {
                 prop: {
                     follow: ["{key,value}", "$and"],
                     method: function(ctx, data) {
+                        var key = puzzle.getRawStatement(data.key, ctx);
+                        var value = puzzle.getRawStatement(data.value, ctx);
+                        
                         if(ctx._sequence.includes('read')){
+
                             //ctx.return  = (syntax.ui._static.elementData[ctx.tagId] || {})[key];
+              
                         } else {
 
-                            var key = puzzle.getRawStatement(data.key, ctx);
-                            var value = puzzle.getRawStatement(data.value, ctx);
                             if(!syntax.ui._static.elementData[ctx.tagId]) syntax.ui._static.elementData[ctx.tagId] = {};
                             syntax.ui._static.elementData[ctx.tagId][key] = value;
                         }
@@ -432,12 +456,15 @@ function setAttrs(tag, ctx) {
                     follow: ["{class}", "$and"],
                         method: function(ctx, _class) {
                             ctx.attrs['className'] = puzzle.getRawStatement(_class);
+                            var tag = document.getElementById(ctx.tagId);
+                            if(tag) setAttrs(tag, ctx);
                         }
                 },
                 click: {
                     follow: ["{click}", "$and"],
                     method: function(ctx, click) {
                         ctx.attrs['onclick'] = puzzle.getRawStatement(click);
+
                     }
                 },
                 drag: {
@@ -554,10 +581,19 @@ function setAttrs(tag, ctx) {
                 at: {
                   follow: ["{l,t}", "$get", "$and", "$with"],
                   method: function (ctx, param) {
-                    ctx.x = param.l;
-                    ctx.y = param.t;
-                    ctx.dynamicAttrs.left = param.l + "px";
-                    ctx.dynamicAttrs.top = param.t + "px";
+                    
+                    ctx.x = window.puzzle.getRawStatement(param.l);
+                    ctx.y = window.puzzle.getRawStatement(param.t);
+
+                    if(ctx._sequence.includes('get')){
+                            var elem = document.elementFromPoint(ctx.x, ctx.y);
+                            ctx.return = elem.id;
+                            return;
+                        }
+
+                    if(!ctx.dynamicAttrs) ctx.dynamicAttrs = {};
+                    ctx.dynamicAttrs.left = ctx.x + "px";
+                    ctx.dynamicAttrs.top = ctx.y + "px";
                     ctx.dynamicAttrs.position = "absolute";
                   }
                 },
